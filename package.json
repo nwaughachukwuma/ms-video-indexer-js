@@ -1,0 +1,75 @@
+{
+  "name": "ms-video-indexer",
+  "version": "0.0.1",
+  "description": "Unofficial Javascript client library for Microsoft Video Indexer APIs",
+  "main": "index.js",
+  "scripts": {
+    "test1": "echo \"Error: no test specified\" && exit 1",
+    "test": "yarn jest",
+    "lint": "eslint --fix index.js",
+    "prettify": "yarn lint && prettier --write index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nwaughachukwuma/ms-video-indexer-js.git"
+  },
+  "keywords": [
+    "Video-AI",
+    "Video-Insights",
+    "Decode-Video"
+  ],
+  "author": "@nwaughachukwuma",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/nwaughachukwuma/ms-video-indexer-js/issues"
+  },
+  "homepage": "https://github.com/nwaughachukwuma/ms-video-indexer-js#readme",
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "lib.msvi-api.d.ts",
+    "memoryCache.js",
+    "memoryCache.d.ts"
+  ],
+  "dependencies": {
+    "cross-fetch": "^3.1.0",
+    "dotenv": "^8.2.0"
+  },
+  "devDependencies": {
+    "eslint": "7.22.0",
+    "eslint-config-prettier": "8.1.0",
+    "eslint-plugin-prettier": "3.3.1",
+    "husky": "4.3.0",
+    "jest": "^26.6.3",
+    "lint-staged": "10.5.4",
+    "prettier": "2.2.1"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,vue}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "jest": {
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "index.js"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 100,
+        "functions": 57,
+        "lines": 100,
+        "statements": 100
+      }
+    },
+    "reporters": [
+      "default"
+    ]
+  }
+}
