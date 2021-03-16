@@ -7,14 +7,14 @@ import { CacheHandlers, seconds } from './lib.msvi-api'
  *
  * @example
  * ```
- * import memoryCache from "memoryCache"
+ * import simpleCache from "~/simpleCache"
  *
- * const cache =  memoryCache(60) // can hold for 60s
+ * const cache = simpleCache(60) // can hold for 60s
  *
  * cache.set('cache-key', {item: 'cache-item'})
  *
  * ```
  */
-declare function memoryCache(ttl: seconds): CacheHandlers
+declare function simpleCache(ttl: seconds): CacheHandlers
 
-export default memoryCache
+export default simpleCache

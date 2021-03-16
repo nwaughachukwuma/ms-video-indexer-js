@@ -1,54 +1,122 @@
 // Using CommonJS modules
 require('dotenv').config()
 const fetch = require('cross-fetch')
-const memoryCache = require('./memoryCache.js')
+const simpleCache = require('./simpleCache')
 
 const REQUEST_BUFFER = 60
 const ACCESS_TOKEN_EXPIRY = 3600 - REQUEST_BUFFER
 const key = 'video_indexer_token'
-const cache = memoryCache(ACCESS_TOKEN_EXPIRY)
+const cache = simpleCache(ACCESS_TOKEN_EXPIRY)
 const baseUrl = 'https://api.videoindexer.ai'
 
-const MSVI_API = ({ callbackUrl = null, location, accountId, subscriptionKey }) => () => {
-    return {
-        /**
-         * A function that efficiently caches and returns the access token
-         * 
-         * @param forceRefresh whether to force fetch a new access token
-         * @returns cached-accessToken
-         */
-        async fetchCachedToken(forceRefresh) {
-            if (forceRefresh) {
-                return await cache.set(key, this.getAccessToken())
-            }
+const makeQueryString = (options) => {
+  const qs = Object.keys(options)
+    .filter((key) => !!options[key])
+    .map((key) => {
+      return `${encodeURIComponent(key)}=${encodeURIComponent(
+        options[key.toString()],
+      )}`
+    })
+    .join('&')
 
-            return await (cache.get(key) || cache.set(key, this.getAccessToken()))
+  return qs
+}
+
+const MSVI_API = ({
+  callbackUrl = null,
+  location,
+  accountId,
+  subscriptionKey,
+}) => () => {
+  const defaultOptions = {
+    sendSuccessEmail: false,
+    streamingPreset: 'NoStreaming',
+    privacy: 'Private',
+    callbackUrl: callbackUrl,
+  }
+
+  return {
+    /**
+     * A function that efficiently caches and returns the access token
+     *
+     * @param {boolean} forceRefresh whether to force fetch a new access token
+     * @returns cached-accessToken
+     */
+    async fetchCachedToken(forceRefresh) {
+      if (forceRefresh) {
+        return await cache.set(key, this.getAccessToken())
+      }
+
+      return await (cache.get(key) || cache.set(key, this.getAccessToken()))
+    },
+
+    /**
+     *
+     * @returns accessToken
+     */
+    async getAccessToken() {
+      const tokenUri = `${baseUrl}/Auth/${location}/Accounts/${accountId}/AccessToken?allowEdit=true`
+
+      const tokenRes = await fetch(tokenUri, {
+        method: 'GET',
+        headers: {
+          'Ocp-Apim-Subscription-Key': subscriptionKey,
         },
+      })
 
-        /**
-         *
-         * @returns accessToken
-         */
-        async getAccessToken() {
-            const tokenUri = `${baseUrl}/Auth/${location}/Accounts/${accountId}/AccessToken?allowEdit=true`
+      const accessToken = await tokenRes.json()
+      return accessToken
+    },
 
-            const tokenRes = await fetch(tokenUri, {
-                method: 'GET',
-                headers: {
-                    'Ocp-Apim-Subscription-Key': subscriptionKey,
-                },
-            })
+    /**
+     *
+     * @param {string} videoURL the video downloadable URI on the cloud
+     * @param {string} randomKey a key that uniquely identifies the video on your platform e.g. videoId
+     * @param {object} options key value pairs that overwrites the default options
+     * @returns upload response
+     */
+    async uploadVideo(videoURL, randomKey, options) {
+      console.log('decodeVideo started', { videoURL, randomKey })
 
-            const accessToken = await tokenRes.json()
-            return accessToken
+      options = Object.assign(
+        {},
+        {
+          ...defaultOptions,
+          name: randomKey,
+          externalId: randomKey,
+          videoUrl: videoURL,
         },
+        options,
+      )
 
-        async uploadVideo() { },
+      const urlQuery = makeQueryString(options)
 
-        async getVideoIndex() { },
+      const accessToken = this.fetchCachedToken()
 
-        async getVideoThumbanail() { },
-    }
+      const uploadUri = `${baseUrl}/${location}/Accounts/${accountId}/Videos?${urlQuery}`
+
+      const data = await fetch(uploadUri, {
+        method: 'POST',
+        headers: {
+          'Ocp-Apim-Subscription-Key': subscriptionKey,
+          'Authorization': `Bearer ${accessToken}`,
+        },
+      })
+        .then((r) => r.json())
+        .catch((e) => {
+          console.error('DecodeVideo Error', e)
+          throw e
+        })
+
+      console.log('decodeVideo completed')
+
+      return data
+    },
+
+    async getVideoIndex() {},
+
+    async getVideoThumbanail() {},
+  }
 }
 
 module.exports = MSVI_API
