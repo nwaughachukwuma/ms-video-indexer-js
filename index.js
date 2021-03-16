@@ -90,9 +90,7 @@ const MSVI_API = ({
       )
 
       const urlQuery = makeQueryString(options)
-
-      const accessToken = this.fetchCachedToken()
-
+      const accessToken = await this.fetchCachedToken()
       const uploadUri = `${baseUrl}/${location}/Accounts/${accountId}/Videos?${urlQuery}`
 
       const data = await fetch(uploadUri, {
