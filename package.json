@@ -11,7 +11,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nwaughachukwuma/ms-video-indexer-js.git"
+    "url": "git+https://github.com/nwaughachukwuma/ms-video-indexer-js.git",
+    "directory": "https://github.com/nwaughachukwuma"
   },
   "keywords": [
     "Video-AI",
@@ -24,12 +25,13 @@
     "url": "https://github.com/nwaughachukwuma/ms-video-indexer-js/issues"
   },
   "homepage": "https://github.com/nwaughachukwuma/ms-video-indexer-js#readme",
+  "exports": "./index.js",
   "files": [
     "index.js",
     "index.d.ts",
     "lib.msvi-api.d.ts",
-    "memoryCache.js",
-    "memoryCache.d.ts"
+    "simpleCache.js",
+    "simpleCache.d.ts"
   ],
   "dependencies": {
     "cross-fetch": "^3.1.0",
@@ -51,7 +53,8 @@
   "lint-staged": {
     "./**/*.{ts,js}": [
       "eslint --fix",
-      "prettier --write"
+      "prettier --write",
+      "yarn test"
     ]
   },
   "husky": {
@@ -67,7 +70,7 @@
     "coverageThreshold": {
       "global": {
         "branches": 100,
-        "functions": 57,
+        "functions": 75,
         "lines": 100,
         "statements": 100
       }
