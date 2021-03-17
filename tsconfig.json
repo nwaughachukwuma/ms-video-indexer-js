@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+      "module": "commonjs",
+      "noImplicitReturns": true,
+      "esModuleInterop": true,
+      "outDir": "build",
+      "noEmit": true,
+      "sourceMap": true,
+      "inlineSources": true,
+      "sourceRoot": "/",
+      "strict": true,
+      "target": "es2017",
+      "resolveJsonModule": true,
+      "skipLibCheck": true
+    },
+    "include": ["./lib.msvi-api.d.ts"],
+    "exclude": ["**/node_modules"]
+  }
+  

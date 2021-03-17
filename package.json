@@ -29,8 +29,7 @@
     "index.js",
     "index.d.ts",
     "lib.msvi-api.d.ts",
-    "simpleCache.js",
-    "simpleCache.d.ts"
+    "simpleCache.js"
   ],
   "dependencies": {
     "cross-fetch": "^3.1.0",

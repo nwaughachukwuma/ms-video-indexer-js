@@ -1,14 +1,16 @@
 import 'jest-matcher-one-of'
 import { APIHandlers } from '../lib.msvi-api'
-const MSVI_API = require('../index')
+import MSVI_API from '../index'
 
 describe('Fetch Access Token', () => {
   let msvpapi: () => APIHandlers
   beforeAll(() => {
+    const { LOCATION, ACCOUNT_ID, SUBSCRIPTION_KEY } = process.env
+
     msvpapi = MSVI_API({
-      location: process.env.LOCATION,
-      accountId: process.env.ACCOUNT_ID,
-      subscriptionKey: process.env.SUBSCRIPTION_KEY,
+      location: LOCATION!,
+      accountId: ACCOUNT_ID!,
+      subscriptionKey: SUBSCRIPTION_KEY!,
     })
   })
 
