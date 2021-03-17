@@ -18,16 +18,20 @@ export interface APIHandlers {
    * @param forceRefresh whether to force fetch a new access token
    * @returns cached-accessToken
    */
-  fetchCachedToken: (forceRefresh: boolean) => Promise<string>
+  fetchCachedToken: (forceRefresh?: boolean) => Promise<string>
 
   /**
    * @returns accessToken
    */
   getAccessToken: () => Promise<string>
 
-  uploadVideo: () => Promise<any>
+  uploadVideo: (
+    videoURL: string,
+    randomKey: string,
+    options?: Record<string, any>,
+  ) => Promise<any>
 
-  getVideoIndex: () => Promise<any>
+  getVideoIndex: (indexId: string) => Promise<any>
 
   getVideoThumbanail: () => Promise<string>
 }

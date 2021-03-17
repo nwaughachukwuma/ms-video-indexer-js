@@ -42,7 +42,7 @@ const MSVI_API = ({
      * @param {boolean} forceRefresh whether to force fetch a new access token
      * @returns cached-accessToken
      */
-    async fetchCachedToken(forceRefresh) {
+    async fetchCachedToken(forceRefresh = false) {
       if (forceRefresh) {
         return await cache.set(key, this.getAccessToken())
       }
@@ -75,7 +75,7 @@ const MSVI_API = ({
      * @param {object} options key value pairs that overwrites the default options
      * @returns upload response
      */
-    async uploadVideo(videoURL, randomKey, options) {
+    async uploadVideo(videoURL, randomKey, options = {}) {
       console.log('decodeVideo started', { videoURL, randomKey })
 
       options = Object.assign(
@@ -111,7 +111,32 @@ const MSVI_API = ({
       return data
     },
 
-    async getVideoIndex() {},
+    /**
+     *
+     * @param { string } indexId indexed video id
+     * @returns { object } as {summarizedInsights: Record<string, any> videos: Record<string, any>[]}
+     */
+    async getVideoIndex(indexId) {
+      console.info('getVideoIndex started', { indexId })
+
+      const accessToken = await this.fetchCachedToken()
+      const indexUri = `${baseUrl}/${location}/Accounts/${accountId}/Videos/${indexId}/Index?includeStreamingUrls=true`
+
+      const response = await fetch(indexUri, {
+        method: 'GET',
+        headers: {
+          'Ocp-Apim-Subscription-Key': subscriptionKey,
+          'Authorization': `Bearer ${accessToken}`,
+        },
+      })
+        .then((r) => r.json())
+        .catch((e) => {
+          throw e
+        })
+
+      console.info('getVideoIndex completed')
+      return response
+    },
 
     async getVideoThumbanail() {},
   }
