@@ -1,4 +1,3 @@
-import 'jest-matcher-one-of'
 import { APIHandlers } from '../lib.msvi-api'
 import MSVI_API from '../index'
 

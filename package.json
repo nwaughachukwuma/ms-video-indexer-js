@@ -54,7 +54,9 @@
   "lint-staged": {
     "./**/*.{ts,js}": [
       "eslint --fix",
-      "prettier --write",
+      "prettier --write"
+    ],
+    "./**/*.spect.{ts,js}": [
       "yarn test"
     ]
   },
@@ -79,6 +81,12 @@
     "preset": "ts-jest",
     "reporters": [
       "default"
+    ],
+    "testMatch": [
+      "**/__tests__/**/?(*.)+(spec|test).[tj]s?(x)"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/__tests__/jest.setup.ts"
     ]
   }
 }
