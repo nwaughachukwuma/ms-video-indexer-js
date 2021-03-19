@@ -33,7 +33,7 @@ export interface APIHandlers {
 
   getVideoIndex: (indexId: string) => Promise<any>
 
-  getVideoThumbanail: () => Promise<string>
+  getVideoThumbnail: (indexId: string, thumbnailId: string) => Promise<string>
 }
 
 export interface CacheHandlers {

@@ -33,7 +33,7 @@ describe('Video Indexing Result', () => {
       expect(response.videos.length).toBeGreaterThan(0)
     })
 
-    it('Should fail to upload a video with a wrong indexId', async () => {
+    it('Fail to fetch index result when provided a wrong indexId', async () => {
       const response = await msvpapi().getVideoIndex(wrongIndexId)
 
       // console.log('Response :=', response)

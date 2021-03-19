@@ -99,12 +99,7 @@ const MSVI_API = ({
           'Ocp-Apim-Subscription-Key': subscriptionKey,
           'Authorization': `Bearer ${accessToken}`,
         },
-      })
-        .then((r) => r.json())
-        .catch((e) => {
-          console.error('DecodeVideo Error', e)
-          throw e
-        })
+      }).then((r) => r.json())
 
       console.log('decodeVideo completed')
 
@@ -128,17 +123,36 @@ const MSVI_API = ({
           'Ocp-Apim-Subscription-Key': subscriptionKey,
           'Authorization': `Bearer ${accessToken}`,
         },
-      })
-        .then((r) => r.json())
-        .catch((e) => {
-          throw e
-        })
+      }).then((r) => r.json())
 
       console.info('getVideoIndex completed')
       return response
     },
 
-    async getVideoThumbanail() {},
+    /**
+     *
+     * @param {*} indexId indexed video id
+     * @param {*} thumbnailId the id of model's thumbnail item
+     * @returns {string} base64 string of the image
+     */
+    async getVideoThumbnail(indexId, thumbnailId) {
+      console.log('getVideoThumbnail started', { indexId, thumbnailId })
+
+      const accessToken = await this.fetchCachedToken()
+      const indexUri = `${baseUrl}/${location}/Accounts/${accountId}/Videos/${indexId}/Thumbnails/${thumbnailId}?format=base64`
+
+      const response = await fetch(indexUri, {
+        method: 'GET',
+        headers: {
+          'Ocp-Apim-Subscription-Key': subscriptionKey,
+          'Authorization': `Bearer ${accessToken}`,
+        },
+      }).then((r) => r.text())
+
+      console.log('getVideoThumbnail completed')
+
+      return response
+    },
   }
 }
 

@@ -56,8 +56,8 @@
       "eslint --fix",
       "prettier --write"
     ],
-    "./**/*.spect.{ts,js}": [
-      "yarn test"
+    "./**/*.spec.{ts,js}": [
+      "yarn test --collectCoverage=false"
     ]
   },
   "husky": {
