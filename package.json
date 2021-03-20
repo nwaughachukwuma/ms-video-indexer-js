@@ -1,7 +1,7 @@
 {
   "name": "ms-video-indexer",
   "version": "0.0.1",
-  "description": "Unofficial Javascript client library for Microsoft Video Indexer APIs",
+  "description": "Unofficial Javascript client library for Microsoft Video Indexer",
   "main": "index.js",
   "scripts": {
     "test": "yarn jest",
