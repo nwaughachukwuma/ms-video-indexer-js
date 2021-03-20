@@ -16,6 +16,7 @@ describe.only('Video Thumbnail String', () => {
   describe('Can fetch video thumbnail from specified id', () => {
     const validIndexId = '2770eb7aca'
     const wrongIndexId = 'some-random-id'
+    const validThumbnailId = '8fcef147-8655-425d-b5e3-1062fd32838b'
     const randomThumbnailId = 'some-random-thumbnail-id'
 
     it('Should fail to get video thumbnail when provided a wrong indexId', async () => {
@@ -46,6 +47,21 @@ describe.only('Video Thumbnail String', () => {
 
       expect(result.message).toBeTruthy()
       expect(result.message).toContain('The request is invalid')
+    })
+
+    test('Should get video thumbnail when provided the right video index and thumbnailId', async () => {
+      const response = await msvpapi().getVideoThumbnail(
+        validIndexId,
+        validThumbnailId,
+      )
+
+      // console.log('Response :=', JSON.parse(response))
+      expect(response).toBeTruthy()
+      expect(typeof response).toBe('string')
+      expect(response.length).toBeGreaterThan(1)
+
+      const result = JSON.parse(JSON.stringify(response))
+      expect(result.message).toBeUndefined()
     })
   })
 })
