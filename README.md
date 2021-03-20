@@ -16,3 +16,4 @@ This project is a WIP
   - get video thumbnail for any insight item/model
 - [X] Add testing with jest testing framework.
 - [ ] Add handlers for other API calls
+- [ ] Add examples
