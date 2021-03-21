@@ -1,6 +1,7 @@
 // Using CommonJS modules
 require('dotenv').config()
-const fetch = require('cross-fetch')
+// const fetch = require('cross-fetch')
+const fetch = require('./platformFetch')
 const simpleCache = require('./simpleCache')
 
 const REQUEST_BUFFER = 60
