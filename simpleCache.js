@@ -17,7 +17,6 @@ function simpleCache(ttl) {
       var _a
       this.unset(key)
       var timer = setTimeout(function () {
-        console.debug('deleting ' + key + ' after timeout')
         _this.unset(key)
       }, (((_a = options) === null || _a === void 0 ? void 0 : _a.ttl) || ttl) *
         1000)

@@ -77,8 +77,6 @@ const MSVI_API = ({
      * @returns upload response
      */
     async uploadVideo(videoURL, randomKey, options = {}) {
-      console.log('decodeVideo started', { videoURL, randomKey })
-
       options = Object.assign(
         {},
         {
@@ -102,8 +100,6 @@ const MSVI_API = ({
         },
       }).then((r) => r.json())
 
-      console.log('decodeVideo completed')
-
       return data
     },
 
@@ -113,8 +109,6 @@ const MSVI_API = ({
      * @returns { object } as {summarizedInsights: Record<string, any> videos: Record<string, any>[]}
      */
     async getVideoIndex(indexId) {
-      console.info('getVideoIndex started', { indexId })
-
       const accessToken = await this.fetchCachedToken()
       const indexUri = `${baseUrl}/${location}/Accounts/${accountId}/Videos/${indexId}/Index?includeStreamingUrls=true`
 
@@ -126,7 +120,6 @@ const MSVI_API = ({
         },
       }).then((r) => r.json())
 
-      console.info('getVideoIndex completed')
       return response
     },
 
@@ -137,8 +130,6 @@ const MSVI_API = ({
      * @returns {string} base64 string of the image
      */
     async getVideoThumbnail(indexId, thumbnailId) {
-      console.log('getVideoThumbnail started', { indexId, thumbnailId })
-
       const accessToken = await this.fetchCachedToken()
       const indexUri = `${baseUrl}/${location}/Accounts/${accountId}/Videos/${indexId}/Thumbnails/${thumbnailId}?format=base64`
 
@@ -149,8 +140,6 @@ const MSVI_API = ({
           'Authorization': `Bearer ${accessToken}`,
         },
       }).then((r) => r.text())
-
-      console.log('getVideoThumbnail completed')
 
       return response
     },
