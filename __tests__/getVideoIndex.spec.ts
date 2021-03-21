@@ -2,7 +2,7 @@ import { APIHandlers } from '../lib.msvi-api'
 import MSVI_API from '../index'
 
 describe('Video Indexing Result', () => {
-  let msvpapi: () => APIHandlers
+  let msvpapi: APIHandlers
   beforeAll(() => {
     const { LOCATION, ACCOUNT_ID, SUBSCRIPTION_KEY } = process.env
 
@@ -18,7 +18,7 @@ describe('Video Indexing Result', () => {
     const wrongIndexId = 'some-random-id'
 
     it('Should fetch result for a valid indexId', async () => {
-      const response = await msvpapi().getVideoIndex(validIndexId)
+      const response = await msvpapi.getVideoIndex(validIndexId)
 
       // console.log('Response :=', response)
       // determines that a response is returned
@@ -34,7 +34,7 @@ describe('Video Indexing Result', () => {
     })
 
     it('Fail to fetch index result when provided a wrong indexId', async () => {
-      const response = await msvpapi().getVideoIndex(wrongIndexId)
+      const response = await msvpapi.getVideoIndex(wrongIndexId)
 
       // console.log('Response :=', response)
       expect(response).toBeTruthy()

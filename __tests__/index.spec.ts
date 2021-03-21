@@ -2,7 +2,7 @@ import { APIHandlers } from '../lib.msvi-api'
 import MSVI_API from '../index'
 
 describe('Interact with Microsoft Video Indexer API', () => {
-  let msvpapi: () => APIHandlers
+  let msvpapi: APIHandlers
 
   describe('Can get project auth token with right credentials', () => {
     beforeEach(() => {
@@ -16,7 +16,7 @@ describe('Interact with Microsoft Video Indexer API', () => {
     })
 
     it("Should return the project's auth token", async () => {
-      const token = await msvpapi().fetchCachedToken(true)
+      const token = await msvpapi.fetchCachedToken(true)
 
       // console.log(token)
       expect(token).toBeTruthy()
@@ -34,7 +34,7 @@ describe('Interact with Microsoft Video Indexer API', () => {
     })
 
     it("Should return the project's auth token", async () => {
-      const token = await msvpapi().fetchCachedToken(true)
+      const token = await msvpapi.fetchCachedToken(true)
 
       // console.log(token)
       expect(token.length).toBeUndefined()

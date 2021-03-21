@@ -2,7 +2,7 @@ import { APIHandlers } from '../lib.msvi-api'
 import MSVI_API from '../index'
 
 describe.only('Video Thumbnail String', () => {
-  let msvpapi: () => APIHandlers
+  let msvpapi: APIHandlers
   beforeAll(() => {
     const { LOCATION, ACCOUNT_ID, SUBSCRIPTION_KEY } = process.env
 
@@ -20,7 +20,7 @@ describe.only('Video Thumbnail String', () => {
     const randomThumbnailId = 'some-random-thumbnail-id'
 
     it('Should fail to get video thumbnail when provided a wrong indexId', async () => {
-      const response = await msvpapi().getVideoThumbnail(
+      const response = await msvpapi.getVideoThumbnail(
         wrongIndexId,
         randomThumbnailId,
       )
@@ -35,7 +35,7 @@ describe.only('Video Thumbnail String', () => {
     })
 
     it('Should fail to get video thumbnail when provided a wrong thumbnailId', async () => {
-      const response = await msvpapi().getVideoThumbnail(
+      const response = await msvpapi.getVideoThumbnail(
         validIndexId,
         randomThumbnailId,
       )
@@ -50,7 +50,7 @@ describe.only('Video Thumbnail String', () => {
     })
 
     test('Should get video thumbnail when provided the right video index and thumbnailId', async () => {
-      const response = await msvpapi().getVideoThumbnail(
+      const response = await msvpapi.getVideoThumbnail(
         validIndexId,
         validThumbnailId,
       )

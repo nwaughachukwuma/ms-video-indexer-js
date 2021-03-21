@@ -28,7 +28,7 @@ const MSVI_API = ({
   location,
   accountId,
   subscriptionKey,
-}) => () => {
+}) => {
   const defaultOptions = {
     sendSuccessEmail: false,
     streamingPreset: 'NoStreaming',
