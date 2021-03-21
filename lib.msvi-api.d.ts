@@ -25,15 +25,35 @@ export interface APIHandlers {
    */
   getAccessToken: () => Promise<string>
 
+  /**
+   * @param videoURL the video downloadable URI on the cloud
+   * @param randomKey a key that uniquely identifies the video on your platform e.g. videoId
+   * @param options key value pairs that overwrites the default options
+   * @returns upload response
+   */
   uploadVideo: (
     videoURL: string,
     randomKey: string,
     options?: Record<string, any>,
   ) => Promise<any>
 
+  /**
+   * @param indexId indexed video id
+   * @returns indexResult as {summarizedInsights: Record<string, any> videos: Record<string, any>[]}
+   */
   getVideoIndex: (indexId: string) => Promise<any>
 
-  getVideoThumbnail: (indexId: string, thumbnailId: string) => Promise<string>
+  /**
+   * @param indexId indexed video id
+   * @param thumbnailId the id of model's thumbnail item
+   * @param format (optional )Thumbnail format. Allowed values: Jpeg/Base64
+   * @returns base64 string of the image
+   */
+  getVideoThumbnail: (
+    indexId: string,
+    thumbnailId: string,
+    format?: string,
+  ) => Promise<string>
 }
 
 export interface CacheHandlers {
@@ -51,7 +71,7 @@ export type seconds = number
  * @param ttl how long, in seconds to keep the cache object before it's deleted
  *
  * @example
- * ```
+ * ```ts
  * import simpleCache from "~/simpleCache"
  *
  * const cache = simpleCache(60) // can hold for 60s

@@ -6,12 +6,12 @@ import { Credentials, APIHandlers } from './lib.msvi-api'
  * @param credentials A credentials object
  *
  * @example
- * ```
- * import MSVI_API from "ms-video-indexer-js"
+ * ```ts
+ * import MSVI from "ms-video-indexer-js"
  *
- * const msvi =  MSVI_API({accountId: 'the-account-id', location: 'trial', subscriptionKey: 'the-subscription-key'})
+ * const api =  MSVI_API({accountId: 'the-account-id', location: 'trial', subscriptionKey: 'the-subscription-key'})
  *
- * const accessToken = await msvi.fetchCachedToken()
+ * const accessToken = await api.fetchCachedToken()
  *
  * ```
  */

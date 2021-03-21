@@ -1,6 +1,3 @@
-// Using CommonJS modules
-require('dotenv').config()
-// const fetch = require('cross-fetch')
 const fetch = require('./platformFetch')
 const simpleCache = require('./simpleCache')
 
@@ -74,7 +71,7 @@ const MSVI_API = ({
      * @param {string} videoURL the video downloadable URI on the cloud
      * @param {string} randomKey a key that uniquely identifies the video on your platform e.g. videoId
      * @param {object} options key value pairs that overwrites the default options
-     * @returns upload response
+     * @returns {object}upload response
      */
     async uploadVideo(videoURL, randomKey, options = {}) {
       options = Object.assign(
@@ -125,13 +122,18 @@ const MSVI_API = ({
 
     /**
      *
-     * @param {*} indexId indexed video id
-     * @param {*} thumbnailId the id of model's thumbnail item
+     * @param {string} indexId indexed video id
+     * @param {string} thumbnailId the id of model's thumbnail item
+     * @param {string} format Thumbnail format. Allowed values: Jpeg/Base64
      * @returns {string} base64 string of the image
      */
-    async getVideoThumbnail(indexId, thumbnailId) {
+    async getVideoThumbnail(indexId, thumbnailId, format = 'base64') {
+      if (!['base64', 'Jpeg'].includes(format)) {
+        throw TypeError('Wrong thumbnail format. Allowed values: Jpeg/Base64')
+      }
+
       const accessToken = await this.fetchCachedToken()
-      const indexUri = `${baseUrl}/${location}/Accounts/${accountId}/Videos/${indexId}/Thumbnails/${thumbnailId}?format=base64`
+      const indexUri = `${baseUrl}/${location}/Accounts/${accountId}/Videos/${indexId}/Thumbnails/${thumbnailId}?format=${format}`
 
       const response = await fetch(indexUri, {
         method: 'GET',

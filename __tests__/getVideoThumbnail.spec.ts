@@ -64,6 +64,22 @@ describe.only('Video Thumbnail String', () => {
       expect(result.ErrorType).toBe('NOT_FOUND')
     })
 
+    it('Should fail to get video thumbnail when provided the right video index and thumbnailId, but the wrong format', async () => {
+      const wrongFormat = 'TIFF'
+
+      try {
+        await msvpapi.getVideoThumbnail(
+          validIndexId,
+          validThumbnailId,
+          wrongFormat,
+        )
+      } catch (e) {
+        expect(e).toBeTruthy()
+        expect(e).toBeInstanceOf(TypeError)
+        expect(e.message).toContain('Wrong thumbnail format.')
+      }
+    })
+
     it('Should get video thumbnail when provided the right video index and thumbnailId', async () => {
       const response = await msvpapi.getVideoThumbnail(
         validIndexId,
