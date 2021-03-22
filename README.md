@@ -96,7 +96,7 @@ The id of the indexed video.
 A guid format string identifying the thumbnail
 
 **format**
-`Type: undefined|string`
+`Type: undefined|'base64'|'Jpeg'`
 
 The format you require the returned thumbnail in. Allowed values are `Jpeg` and `Base64`. Defaults to `base64`
 

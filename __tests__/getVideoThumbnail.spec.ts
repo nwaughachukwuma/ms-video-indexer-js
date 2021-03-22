@@ -71,6 +71,7 @@ describe.only('Video Thumbnail String', () => {
         await msvpapi.getVideoThumbnail(
           validIndexId,
           validThumbnailId,
+          // @ts-ignore
           wrongFormat,
         )
       } catch (e) {

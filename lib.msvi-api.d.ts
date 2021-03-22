@@ -52,7 +52,7 @@ export interface APIHandlers {
   getVideoThumbnail: (
     indexId: string,
     thumbnailId: string,
-    format?: string,
+    format?: 'base64' | 'Jpeg',
   ) => Promise<string>
 }
 
