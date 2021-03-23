@@ -150,5 +150,4 @@ const MSVI_API = ({
 
 module.exports = exports = MSVI_API
 // Needed for TypeScript consumers without esModuleInterop.
-exports.MSVI_API = MSVI_API
 exports.default = MSVI_API
