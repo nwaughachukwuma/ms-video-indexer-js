@@ -13,6 +13,7 @@
     "url": "git+https://github.com/nwaughachukwuma/ms-video-indexer-js.git",
     "directory": "https://github.com/nwaughachukwuma"
   },
+  "type": "module",
   "keywords": [
     "Video-AI",
     "Video-Insights",
