@@ -1,6 +1,6 @@
 {
   "name": "ms-video-indexer",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "Unofficial Javascript client library for Microsoft Video Indexer",
   "main": "index.js",
   "scripts": {
@@ -14,6 +14,9 @@
     "directory": "https://github.com/nwaughachukwuma"
   },
   "type": "module",
+  "sideEffects": [
+    "./index.js"
+  ],
   "keywords": [
     "Video-AI",
     "Video-Insights",
