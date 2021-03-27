@@ -22,7 +22,7 @@ npm install --save ms-video-indexer
   - get video index result
   - get video thumbnail for any insight item/model
 - [x] Add testing with jest testing framework.
-- [ ] Add handlers for other API calls - May implement this per request
+- [ ] Add handlers for other API calls - May implement this based on request
 - [x] Add examples
 
 ## Example/Usage

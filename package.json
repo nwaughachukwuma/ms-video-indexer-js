@@ -23,7 +23,7 @@
     "Decode-Video"
   ],
   "author": "@nwaughachukwuma",
-  "license": "GPL-3.0",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/nwaughachukwuma/ms-video-indexer-js/issues"
   },

@@ -16,6 +16,6 @@ function platformFetch() {
 
 const fetch = platformFetch()
 
-module.exports = exports = fetch
+module.exports = fetch
 // Needed for TypeScript consumers without esModuleInterop.
-exports.default = fetch
+module.exports.default = fetch
