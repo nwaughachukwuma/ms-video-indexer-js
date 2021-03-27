@@ -56,14 +56,13 @@ export interface APIHandlers {
   ) => Promise<string>
 }
 
-export interface CacheHandlers {
+type seconds = number
+interface CacheHandlers {
   get: (key: string) => string | undefined
   set: <T>(key: string, value: T, options?: { ttl: seconds }) => T
   unset: (key: string) => boolean
   hasKey: (key: string) => boolean
 }
-
-export type seconds = number
 
 /**
  * A simple hashmap which serves as our cache

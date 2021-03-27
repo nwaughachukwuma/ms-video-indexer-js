@@ -17,4 +17,5 @@ import { Credentials, APIHandlers } from './lib.msvi-api'
  */
 declare function MSVI_API(credentials: Credentials): APIHandlers
 
+export { Credentials, APIHandlers }
 export default MSVI_API

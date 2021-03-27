@@ -1,5 +1,4 @@
-import { APIHandlers } from '../lib.msvi-api'
-import MSVI_API from '../index'
+import MSVI_API, { APIHandlers } from '../index'
 
 describe('Fetch Access Token', () => {
   let msvpapi: APIHandlers

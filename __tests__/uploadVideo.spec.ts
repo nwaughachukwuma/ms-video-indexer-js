@@ -1,5 +1,4 @@
-import { APIHandlers } from '../lib.msvi-api'
-import MSVI_API from '../index'
+import MSVI_API, { APIHandlers } from '../index'
 
 describe('Upload a video for indexing', () => {
   jest.setTimeout(30000)
@@ -22,11 +21,16 @@ describe('Upload a video for indexing', () => {
 
     it('Should upload a video with valid cloud URI', async () => {
       const inProgressResponse = 'VIDEO_ALREADY_IN_PROGRESS'
+      const alreadyFailedResponse = 'VIDEO_ALREADY_FAILED'
       const response = await msvpapi.uploadVideo(videoURL, randomKey)
 
       // console.log('Response :=', response)
       expect(response).toBeTruthy()
-      expect(response.ErrorType).toBeOneOf([undefined, inProgressResponse])
+      expect(response.ErrorType).toBeOneOf([
+        undefined,
+        inProgressResponse,
+        alreadyFailedResponse,
+      ])
     })
 
     it('Should fail to upload a video with an unreachable cloud URI', async () => {

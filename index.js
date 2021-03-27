@@ -38,7 +38,7 @@ const MSVI_API = ({
      * A function that efficiently caches and returns the access token
      *
      * @param {boolean} forceRefresh whether to force fetch a new access token
-     * @returns cached-accessToken
+     * @returns { Promise<string> } cached-accessToken
      */
     async fetchCachedToken(forceRefresh = false) {
       if (forceRefresh) {
@@ -50,7 +50,7 @@ const MSVI_API = ({
 
     /**
      *
-     * @returns accessToken
+     * @returns { Promise<string> } accessToken
      */
     async getAccessToken() {
       const tokenUri = `${baseUrl}/Auth/${location}/Accounts/${accountId}/AccessToken?allowEdit=true`
@@ -71,7 +71,7 @@ const MSVI_API = ({
      * @param {string} videoURL the video downloadable URI on the cloud
      * @param {string} randomKey a key that uniquely identifies the video on your platform e.g. videoId
      * @param {object} options key value pairs that overwrites the default options
-     * @returns {object}upload response
+     * @returns { Promise<object> }upload response
      */
     async uploadVideo(videoURL, randomKey, options = {}) {
       options = Object.assign(
@@ -103,7 +103,7 @@ const MSVI_API = ({
     /**
      *
      * @param { string } indexId indexed video id
-     * @returns { object } as {summarizedInsights: Record<string, any> videos: Record<string, any>[]}
+     * @returns { Promise<object> } as {summarizedInsights: Record<string, any> videos: Record<string, any>[]}
      */
     async getVideoIndex(indexId) {
       const accessToken = await this.fetchCachedToken()
@@ -125,7 +125,7 @@ const MSVI_API = ({
      * @param {string} indexId indexed video id
      * @param {string} thumbnailId the id of model's thumbnail item
      * @param {string} format Thumbnail format. Allowed values: Jpeg/Base64
-     * @returns {string} base64 string of the image
+     * @returns {Promise<string>} base64 string of the image
      */
     async getVideoThumbnail(indexId, thumbnailId, format = 'base64') {
       if (!['base64', 'Jpeg'].includes(format)) {
@@ -148,6 +148,6 @@ const MSVI_API = ({
   }
 }
 
-module.exports = exports = MSVI_API
+module.exports = MSVI_API
 // Needed for TypeScript consumers without esModuleInterop.
-exports.default = MSVI_API
+module.exports.default = MSVI_API
