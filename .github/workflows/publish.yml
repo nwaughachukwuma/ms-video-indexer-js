@@ -27,6 +27,10 @@ jobs:
         with:
           cmd: install
       - run: yarn test
+        env:
+          LOCATION: ${{ secrets.LOCATION }}
+          ACCOUNT_ID: ${{ secrets.ACCOUNT_ID }}
+          SUBSCRIPTION_KEY: ${{ secrets.SUBSCRIPTION_KEY }}
       - if: matrix.node-version == 14
         uses: JS-DevTools/npm-publish@v1
         with:
