@@ -26,14 +26,14 @@ const MSVI_API = ({
   }
 
   return {
-    async getCachedToken(forceRefresh = false): Promise<string> {
+    async getCachedToken(forceRefresh = false) {
       if (forceRefresh) {
         return await cache.set(key, this.getAccessToken())
       }
       return await (cache.get(key) || cache.set(key, this.getAccessToken()))
     },
 
-    async getAccessToken(): Promise<string> {
+    async getAccessToken() {
       const tokenUri = `${baseUrl}/Auth/${location}/Accounts/${accountId}/AccessToken?allowEdit=true`
 
       const tokenRes = await fetch(tokenUri, {
@@ -41,14 +41,13 @@ const MSVI_API = ({
         headers,
       })
 
-      const accessToken = await tokenRes.json()
-      return accessToken
+      return await tokenRes.json()
     },
 
     async uploadVideo(
       videoUrl: UploadVideoRequest['videoUrl'],
       options: UploadVideoRequest,
-    ): Promise<any> {
+    ) {
       options = Object.assign(defaultOptions, {
         ...options,
         videoUrl: videoUrl,
@@ -58,42 +57,41 @@ const MSVI_API = ({
       const accessToken = await this.getCachedToken()
       const uploadUri = `${baseUrl}/${location}/Accounts/${accountId}/Videos?${urlQuery}`
 
-      const data = await fetch(uploadUri, {
+      return await fetch(uploadUri, {
         method: 'POST',
         headers: {
           ...headers,
           Authorization: `Bearer ${accessToken}`,
         },
-      }).then((r) => r.json())
-
-      return data
+      })
+        .then((r) => r.json())
+        .catch((e) => {
+          throw e
+        })
     },
 
-    async getVideoIndex(
-      indexId: string,
-    ): Promise<{
-      summarizedInsights: Record<string, any>
-      videos: Record<string, any>[]
-    }> {
+    async getVideoIndex(indexId: string) {
       const accessToken = await this.getCachedToken()
       const indexUri = `${baseUrl}/${location}/Accounts/${accountId}/Videos/${indexId}/Index?includeStreamingUrls=true`
 
-      const response = await fetch(indexUri, {
+      return await fetch(indexUri, {
         method: 'GET',
         headers: {
           ...headers,
           Authorization: `Bearer ${accessToken}`,
         },
-      }).then((r) => r.json())
-
-      return response
+      })
+        .then((r) => r.json())
+        .catch((e) => {
+          throw e
+        })
     },
 
     async getVideoThumbnail(
       indexId: string,
       thumbnailId: string,
       format: 'Jpeg' | 'base64' = 'base64',
-    ): Promise<string> {
+    ) {
       if (!['base64', 'Jpeg'].includes(format)) {
         throw TypeError('Wrong thumbnail format. Allowed values: Jpeg/Base64')
       }
@@ -101,15 +99,17 @@ const MSVI_API = ({
       const accessToken = await this.getCachedToken()
       const indexUri = `${baseUrl}/${location}/Accounts/${accountId}/Videos/${indexId}/Thumbnails/${thumbnailId}?format=${format}`
 
-      const response = await fetch(indexUri, {
+      return await fetch(indexUri, {
         method: 'GET',
         headers: {
           ...headers,
           Authorization: `Bearer ${accessToken}`,
         },
-      }).then((r) => r.text())
-
-      return response
+      })
+        .then((r) => r.text())
+        .catch((e) => {
+          throw e
+        })
     },
   }
 }

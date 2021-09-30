@@ -61,8 +61,28 @@ export interface UploadVideoRequest {
   assetId?: string
   /** List of brands categories delimited by comma. */
   brandsCategories?: string
-  /** Required if not provided in Authorization header as Bearer token - should be given as parameter in URL query string. */
-  accessToken?: string
+}
+
+export interface GetVideoIndexResponseSuccess {
+  accountId: string
+  id: string
+  name: string
+  description: string | null
+  userName: string
+  created: string
+  privacyMode: 'Private' | 'Public'
+  state: 'Processed' | ''
+  isOwned: boolean
+  isEditable: boolean
+  isBase: boolean
+  durationInSeconds: number
+  summarizedInsights: Record<string, any>
+  videos: Record<string, any>[]
+}
+
+export interface GetVideoIndexResponseError {
+  ErrorType: string
+  Message: string
 }
 
 export interface APIHandlers {
@@ -89,10 +109,7 @@ export interface APIHandlers {
    */
   getVideoIndex(
     indexId: string,
-  ): Promise<{
-    summarizedInsights: Record<string, any>
-    videos: Record<string, any>[]
-  }>
+  ): Promise<GetVideoIndexResponseSuccess | GetVideoIndexResponseError>
 
   /**
    * @param indexId indexed video id
