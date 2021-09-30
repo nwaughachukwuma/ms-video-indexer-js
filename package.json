@@ -2,42 +2,42 @@
   "name": "ms-video-indexer",
   "version": "0.0.15",
   "description": "Unofficial Javascript client library for Microsoft Video Indexer",
-  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "nwaughachukwuma/ms-video-indexer-js",
+    "directory": "https://github.com/nwaughachukwuma"
+  },
+  "homepage": "https://github.com/nwaughachukwuma/ms-video-indexer-js#readme",
+  "license": "MIT",
+  "author": {
+    "name": "Chukwuma Nwaugha",
+    "email": "nwaughac@gmail.com",
+    "url": "https://nwaughachukwuma.github.io/portfolio"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "sideEffects": [
+    "./dist/index.js"
+  ],
+  "keywords": [
+    "Video AI",
+    "Video Insights",
+    "Decode Video",
+    "Video Analyzer"
+  ],
+  "exports": "./index.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
+    "tsc": "tsc",
     "test": "yarn jest",
     "lint": "eslint --fix index.js",
     "prettify": "yarn lint && prettier --write index.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/nwaughachukwuma/ms-video-indexer-js.git",
-    "directory": "https://github.com/nwaughachukwuma"
-  },
-  "type": "module",
-  "sideEffects": [
-    "./index.js"
-  ],
-  "keywords": [
-    "Video-AI",
-    "Video-Insights",
-    "Decode-Video"
-  ],
-  "author": "@nwaughachukwuma",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/nwaughachukwuma/ms-video-indexer-js/issues"
-  },
-  "homepage": "https://github.com/nwaughachukwuma/ms-video-indexer-js#readme",
-  "exports": "./index.js",
-  "files": [
-    "index.js",
-    "index.d.ts",
-    "lib.msvi-api.d.ts",
-    "simpleCache.js",
-    "platformFetch.js"
-  ],
   "dependencies": {
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^3.0.0",
+    "sma-cache": "^0.0.6"
   },
   "devDependencies": {
     "@types/jest": "^26.0.20",
@@ -55,7 +55,7 @@
     "lint-staged": "10.5.4",
     "prettier": "2.2.1",
     "ts-jest": "^26.5.3",
-    "typescript": "^4.2.3"
+		"typescript": "^4.4.3"
   },
   "lint-staged": {
     "./**/*.{ts,js}": [
