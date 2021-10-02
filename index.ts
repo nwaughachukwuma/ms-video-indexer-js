@@ -1,4 +1,4 @@
-import fetch from './platformFetch'
+import fetch from 'cross-fetch'
 import simpleCache from 'sma-cache'
 import { makeQueryString } from './util'
 import type { Credentials, UploadVideoRequest, APIHandlers } from './types'
