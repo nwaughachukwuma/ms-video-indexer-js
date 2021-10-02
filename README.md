@@ -30,7 +30,7 @@ npm install --save ms-video-indexer
 ## Example/Usage
 
 ```ts
-import MSVI from 'ms-video-indexer-js'
+import MSVI from 'ms-video-indexer'
 
 const api = MSVI({
   accountId: 'the-account-id',
