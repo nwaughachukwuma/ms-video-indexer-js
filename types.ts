@@ -15,7 +15,7 @@ export interface Credentials {
 }
 
 /**
- * See the type description at https://api-portal.videoindexer.ai/api-details#api=Operations&operation=Upload-Video
+ * See added description of each field at https://api-portal.videoindexer.ai/api-details#api=Operations&operation=Upload-Video
  */
 export interface UploadVideoRequest {
   location?: string

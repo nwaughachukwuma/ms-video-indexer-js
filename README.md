@@ -1,29 +1,31 @@
 # ms-video-indexer-js
 
-Unofficial Javascript client library for Microsoft Video Indexer
+Unofficial Javascript client library for Microsoft Video Analyzer
 
 ## Note
 
-This project is a WIP
+This project is a WIP - Feel free to contribute an API you find useful to your project
 
 ## Installation
 
-```ts
+```bash
 yarn add ms-video-indexer
+
+pnpm install ms-video-indexer
 
 npm install --save ms-video-indexer
 ```
 
 ## TODO
 
-- [x] Add major handlers for the relevant API calls
-  - fetch Access Token including logic to cache the token
-  - index video using a downloadable URI to a video file stored on the cloud
-  - get video index result
-  - get video thumbnail for any insight item/model
-- [x] Add testing with jest testing framework.
-- [ ] Add handlers for other API calls - May implement this based on request
-- [x] Add examples
+- [x] Add major handlers for relevant APIs
+  - fetch and cache access token
+  - index video file from a downloadable URI
+  - get result of video analysis
+  - get video thumbnails for any item/model which described the video, such as face, scene or shot.
+- [x] Jest Test.
+- [x] Examples
+- [ ] Handlers for other API calls - May implement this based on request
 
 ## Example/Usage
 
@@ -37,44 +39,84 @@ const api = MSVI({
 })
 
 // to get the cached token
-const accessToken = await api.fetchCachedToken()
+const accessToken = await api.getCachedToken()
 
 // to index a video
 const videoURL = 'https://url-to-a-downloadable-cloud-resource'
-const randomKey =
-  'an-id-or-name-used-in-recognising-the-video-file-on-your-platform'
+const uuid = 'id-recognising-the-video-on-your-platform'
 
-await api.uploadVideo(videoURL, randomKey)
+await api.uploadVideo(videoURL, {name: 'Into the Spiderverse', externalId: uuid })
 ```
 
 ## API
 
-### fetchCachedToken(forceFetch?)
+### getCachedToken(forceFetch?)
 
-Returns a promise to a cached accessToken. This functions ensures that you don't have to always fetch the access token, as the access token once fetched is cached using a simple cache implementation for t < 60sec before it's refreshed. This ensures that your access token is always valid within the 1hr expiry period.
+Returns a promise to a cached access token. This functions ensures you don't always have to poll the access token - it's fetched once and cached using [simple cache](https://github.com/nwaughachukwuma/sma-cache) for t < 60sec before it's refreshed. Thus the token is always valid within a 1hr expiry period.
 
 **forceFetch**
 `Type: undefined|boolean`
 
-Set to true if you always need to fetch a new access token
+Set to true to fetch a new token
 
-### uploadVideo(videoURL, randomKey?)
+### uploadVideo(videoURL, options)
 
-This is used to ingest a video which is to be indexed/decoded. It returns a promise containing parameters that defines the ingested video including the `videoId` as stored on MSVI
+Used to ingest a video to be analyzed.
 
 **videoURL**
 `Type: string`
 
-The URL of the video file to be indexed. The URL must point at a media file (HTML pages are not supported). Please read more [here](https://docs.microsoft.com/en-us/azure/media-services/video-indexer/upload-index-videos#videourl). Be aware of cases where the video file is protected by an access token and note that those must be encoded properly. See this [Stack Overflow question](https://stackoverflow.com/questions/66098966/issue-with-using-a-video-file-on-google-cloud-storage-as-input-to-microsoft-vide/66116340#66116340)
+Video file url to analyze. The URL must point to a media file (HTML pages are not supported). Please read more [here](https://docs.microsoft.com/en-us/azure/media-services/video-indexer/upload-index-videos#videourl). Be aware of cases where the video file is protected by an access token and note that those must be encoded properly. See this [Stack Overflow question](https://stackoverflow.com/questions/66098966/issue-with-using-a-video-file-on-google-cloud-storage-as-input-to-microsoft-vide/66116340#66116340)
 
-**randomKey**
-`Type: undefined|string`
+**options**
+`Type: UploadVideoRequest`
 
-This is a parameter or field that is used in recognizing the video file on your app/system
+Custom options for your video like `name` and `externalId`. Please note the following about the interface:
+
+- the interface is shown below and only `name` is required since you provide `location` and `accountId` when instantiating the object
+- you can find detailed description for each field here: https://api-portal.videoindexer.ai/api-details#api=Operations&operation=Upload-Video
+
+```ts
+interface UploadVideoRequest {
+  location?: string
+  accountId?: string
+  name: string
+  privacy?: 'Private' | 'Public'
+  priority?: 'Low' | 'Normal' | 'High'
+  description?: string
+  partition?: string
+  externalId?: string
+  externalUrl?: string
+  callbackUrl?: string
+  metadata?: string
+  language?: string
+  videoUrl?: string
+  fileName?: string
+  indexingPreset?:
+    | 'Default'
+    | 'AudioOnly'
+    | 'VideoOnly'
+    | 'BasicAudio'
+    | 'Advanced'
+    | 'AdvancedAudio'
+    | 'AdvancedVideo'
+  streamingPreset?:
+    | 'NoStreaming'
+    | 'Default'
+    | 'SingleBitrate'
+    | 'AdaptiveBitrate'
+  linguisticModelId?: string
+  personModelId?: string
+  animationModelId?: string
+  sendSuccessEmail?: boolean
+  assetId?: string
+  brandsCategories?: string
+}
+```
 
 ### getVideoIndex(videoId)
 
-This is used to retrieve/fetch the result of a successful indexing operation
+Used to retrieve/fetch the result of a successful index operation.
 
 **videoId**
 `Type: string`
@@ -83,22 +125,22 @@ The id of the indexed video.
 
 ### getVideoThumbnail(videoId, thumbnailId, format?)
 
-This is used to retrieve the thumbnail of a video
+Used to retrieve video thumbnail.
 
 **videoId**
 `Type: string`
 
-The id of the indexed video.
+Id of the indexed video.
 
 **thumbnailId**
 `Type: string`
 
-A guid format string identifying the thumbnail
+A `guid` string identifying the thumbnail.
 
 **format**
 `Type: undefined|'base64'|'Jpeg'`
 
-The format you require the returned thumbnail in. Allowed values are `Jpeg` and `Base64`. Defaults to `base64`
+Preferred thumbnail format. Allowed values are `Jpeg` and `Base64`. Defaults to `base64`
 
 ## References
 
