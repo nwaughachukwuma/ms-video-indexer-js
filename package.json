@@ -1,7 +1,7 @@
 {
   "name": "ms-video-indexer",
   "version": "0.0.15",
-  "description": "Unofficial Javascript client library for Microsoft Video Indexer",
+  "description": "Unofficial Javascript client library for Microsoft Video Analyzer",
   "repository": {
     "type": "git",
     "url": "nwaughachukwuma/ms-video-indexer-js",
@@ -31,31 +31,36 @@
   ],
   "scripts": {
     "tsc": "tsc",
-    "test": "yarn jest",
+    "test": "jest",
     "lint": "eslint --fix index.js",
     "prettify": "yarn lint && prettier --write index.js"
   },
   "dependencies": {
-    "node-fetch": "^3.0.0",
+    "cross-fetch": "^3.1.4",
     "sma-cache": "^0.0.6"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.20",
+    "@babel/core": "*",
+    "@babel/plugin-transform-modules-commonjs": "^7.15.4",
+    "@babel/preset-env": "*",
+    "@babel/preset-typescript": "*",
+    "@types/jest": "^27.0.2",
     "@types/jest-matcher-one-of": "^1.0.3",
-    "@types/node-fetch": "^2.5.8",
-    "@typescript-eslint/parser": "4.17.0",
+    "@types/node": "^16.10.2",
+    "@typescript-eslint/parser": "4.32.0",
     "babel-eslint": "^10.1.0",
     "dotenv": "^8.2.0",
     "eslint": "7.22.0",
     "eslint-config-prettier": "8.1.0",
     "eslint-plugin-prettier": "3.3.1",
     "husky": "4.3.0",
-    "jest": "^26.6.3",
+    "jest": "^27.2.4",
     "jest-matcher-one-of": "^1.0.2",
     "lint-staged": "10.5.4",
-    "prettier": "2.2.1",
-    "ts-jest": "^26.5.3",
-		"typescript": "^4.4.3"
+    "prettier": "2.4.1",
+    "ts-jest": "^27.0.5",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.3"
   },
   "lint-staged": {
     "./**/*.{ts,js}": [
@@ -74,7 +79,7 @@
   "jest": {
     "collectCoverage": true,
     "collectCoverageFrom": [
-      "index.js"
+      "__tests__/*.spec.ts"
     ],
     "coverageThreshold": {
       "global": {
@@ -85,12 +90,20 @@
       }
     },
     "preset": "ts-jest",
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest",
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "transformIgnorePatterns": [
+      "/node_modules/(?!sma-cache)"
+    ],
     "reporters": [
       "default"
     ],
     "testMatch": [
       "**/__tests__/**/?(*.)+(spec|test).[tj]s?(x)"
     ],
+    "testEnvironment": "node",
     "setupFilesAfterEnv": [
       "<rootDir>/__tests__/jest.setup.ts"
     ]
