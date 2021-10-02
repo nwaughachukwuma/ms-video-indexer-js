@@ -1,4 +1,5 @@
-import MSVI_API, { APIHandlers } from '../index'
+import MSVI_API from '../index'
+import type { APIHandlers } from '../types'
 
 describe.only('Video Thumbnail String', () => {
   let msvpapi: APIHandlers
@@ -73,7 +74,7 @@ describe.only('Video Thumbnail String', () => {
           // @ts-ignore
           wrongFormat,
         )
-      } catch (e) {
+      } catch (e: any) {
         expect(e).toBeTruthy()
         expect(e).toBeInstanceOf(TypeError)
         expect(e.message).toContain('Wrong thumbnail format.')

@@ -1,4 +1,5 @@
-import MSVI_API, { APIHandlers } from '../index'
+import MSVI_API from '../index'
+import type { APIHandlers } from '../types'
 
 describe('Fetch Access Token', () => {
   let msvpapi: APIHandlers
@@ -14,14 +15,14 @@ describe('Fetch Access Token', () => {
 
   describe('Can get project auth token', () => {
     it("Should return the project's auth token", async () => {
-      const token = await msvpapi.fetchCachedToken()
+      const token = await msvpapi.getCachedToken()
 
       // console.log(token)
       expect(token).toBeTruthy()
       expect(token.length).toBeGreaterThan(1)
     })
     it("can forceRefresh the project's auth token", async () => {
-      const token = await msvpapi.fetchCachedToken(true)
+      const token = await msvpapi.getCachedToken(true)
 
       // console.log(token)
       expect(token).toBeTruthy()

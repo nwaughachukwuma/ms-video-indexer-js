@@ -1,4 +1,5 @@
-import MSVI_API, { APIHandlers } from '../index'
+import MSVI_API from '../index'
+import type { APIHandlers } from '../types'
 
 describe('Video Indexing Result', () => {
   let msvpapi: APIHandlers
@@ -22,14 +23,16 @@ describe('Video Indexing Result', () => {
       // console.log('Response :=', response)
       // determines that a response is returned
       expect(response).toBeTruthy()
-      // determines that the response has the same video indexId
-      expect(response.id).toBe(validIndexId)
-      // determines that it has summarized insights
-      expect(response.summarizedInsights).not.toBeUndefined()
-      // determines that it has videos analysis result array
-      expect(response.videos).not.toBeUndefined()
-      // determines that the videos analysis result array has content
-      expect(response.videos.length).toBeGreaterThan(0)
+      if ('id' in response) {
+        // determines that the response has the same video indexId
+        expect(response.id).toBe(validIndexId)
+        // determines that it has summarized insights
+        expect(response.summarizedInsights).not.toBeUndefined()
+        // determines that it has videos analysis result array
+        expect(response.videos).not.toBeUndefined()
+        // determines that the videos analysis result array has content
+        expect(response.videos.length).toBeGreaterThan(0)
+      }
     })
 
     it('Fail to fetch index result when provided a wrong indexId', async () => {
@@ -37,8 +40,10 @@ describe('Video Indexing Result', () => {
 
       // console.log('Response :=', response)
       expect(response).toBeTruthy()
-      expect(response.ErrorType).toBeTruthy()
-      expect(response.ErrorType).toBe('USER_NOT_ALLOWED')
+      if ('ErrorType' in response) {
+        expect(response.ErrorType).toBeTruthy()
+        expect(response.ErrorType).toBe('USER_NOT_ALLOWED')
+      }
     })
   })
 })
