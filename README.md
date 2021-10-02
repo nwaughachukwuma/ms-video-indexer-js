@@ -52,7 +52,10 @@ await api.uploadVideo(videoURL, {name: 'Into the Spiderverse', externalId: uuid 
 
 ### getCachedToken(forceFetch?)
 
-Returns a promise to a cached access token. This functions ensures you don't always have to poll the access token - it's fetched once and cached using [simple cache](https://github.com/nwaughachukwuma/sma-cache) for t < 60sec before it's refreshed. Thus the token is always valid within a 1hr expiry period.
+Returns a promise to a cached access token. This functions ensures you don't always have to poll the access token 
+
+- it's fetched once and cached using [simple cache](https://github.com/nwaughachukwuma/sma-cache) for t < 60sec before it's refreshed. 
+- token is always valid within a 1hr expiry period.
 
 **forceFetch**
 `Type: undefined|boolean`
