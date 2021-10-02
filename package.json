@@ -1,6 +1,6 @@
 {
   "name": "ms-video-indexer",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Unofficial Javascript client library for Microsoft Video Analyzer",
   "repository": {
     "type": "git",
@@ -14,18 +14,16 @@
     "email": "nwaughac@gmail.com",
     "url": "https://nwaughachukwuma.github.io/portfolio"
   },
-  "type": "module",
-  "main": "./dist/index.js",
-  "sideEffects": [
-    "./dist/index.js"
-  ],
   "keywords": [
     "Video AI",
     "Video Insights",
     "Decode Video",
     "Video Analyzer"
   ],
+  "type": "module",
+  "main": "./dist/index.js",
   "exports": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
