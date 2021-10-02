@@ -7,19 +7,17 @@ const msvpapi = MSVI_API({
   subscriptionKey: SUBSCRIPTION_KEY!,
 })
 
-describe('Fetch Access Token - can get project auth token', () => {
-  it("Should return the project's auth token", async () => {
-    const token = await msvpapi.getCachedToken()
+describe('Fetch Access Token - can get access token', () => {
+  it('should return access token', async () => {
+    const token = msvpapi.getCachedToken()
 
-    // console.log(token)
-    expect(token).toBeTruthy()
-    expect(token.length).toBeTruthy()
+    const d = await token
+    expect(d).toMatch(/ey*/)
   })
-  it("can forceRefresh the project's auth token", async () => {
-    const token = await msvpapi.getCachedToken(true)
+  it('can forceRefresh the access token', async () => {
+    const token = msvpapi.getCachedToken(true)
 
-    // console.log(token)
-    expect(token).toBeTruthy()
-    expect(token.length).toBeTruthy()
+    const d = await token
+    expect(d).toMatch(/ey*/)
   })
 })

@@ -36,10 +36,7 @@ const MSVI_API = ({
     async getAccessToken() {
       const tokenUri = `${baseUrl}/Auth/${location}/Accounts/${accountId}/AccessToken?allowEdit=true`
 
-      const tokenRes = await fetch(tokenUri, {
-        method: 'GET',
-        headers,
-      })
+      const tokenRes = await fetch(tokenUri, { method: 'GET', headers })
 
       return await tokenRes.json()
     },

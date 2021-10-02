@@ -11,32 +11,28 @@ describe('Video Indexing Result - can fetch video indexing result', () => {
   const validIndexId = '2770eb7aca'
   const wrongIndexId = 'some-random-id'
 
-  it('Should fetch result for a valid indexId', async () => {
-    const response = await msvpapi.getVideoIndex(validIndexId)
+  it('should fetch result for a valid indexId', async () => {
+    const response = msvpapi.getVideoIndex(validIndexId)
 
-    // console.log('Response :=', response)
-    // determines that a response is returned
-    expect(response).toBeTruthy()
-    if ('id' in response) {
+    const d = await response
+    expect(d).toBeTruthy()
+    if ('id' in d) {
       // determines that the response has the same video indexId
-      expect(response.id).toBe(validIndexId)
+      expect(d.id).toBe(validIndexId)
       // determines that it has summarized insights
-      expect(response.summarizedInsights).not.toBeUndefined()
-      // determines that it has videos analysis result array
-      expect(response.videos).not.toBeUndefined()
+      expect(d.summarizedInsights).not.toBeUndefined()
       // determines that the videos analysis result array has content
-      expect(response.videos.length).toBeTruthy()
+      expect(d.videos.length).toBeTruthy()
     }
   })
 
-  it('Fail to fetch index result when provided a wrong indexId', async () => {
-    const response = await msvpapi.getVideoIndex(wrongIndexId)
+  it('fails to fetch result when provided wrong indexId', async () => {
+    const response = msvpapi.getVideoIndex(wrongIndexId)
 
-    // console.log('Response :=', response)
-    expect(response).toBeTruthy()
-    if ('ErrorType' in response) {
-      expect(response.ErrorType).toBeTruthy()
-      expect(response.ErrorType).toBe('USER_NOT_ALLOWED')
+    const d = await response
+    expect(d).not.toBeUndefined()
+    if ('ErrorType' in d) {
+      expect(d.ErrorType).toBe('USER_NOT_ALLOWED')
     }
   })
 })

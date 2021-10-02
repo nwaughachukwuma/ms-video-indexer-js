@@ -1,4 +1,5 @@
 module.exports = {
+  bail: true,
   collectCoverage: true,
   collectCoverageFrom: ['./index.ts'],
   coverageThreshold: {
