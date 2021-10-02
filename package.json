@@ -68,7 +68,7 @@
       "prettier --write"
     ],
     "./**/*.spec.{ts,js}": [
-      "yarn test --collectCoverage=false"
+      "yarn test --forceExit --collectCoverage=false"
     ]
   },
   "husky": {
