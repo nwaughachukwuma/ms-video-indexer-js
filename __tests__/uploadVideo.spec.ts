@@ -36,10 +36,8 @@ describe('Upload a video for indexing', () => {
       })
 
       const d = await response
-      console.log(d)
       expect(d).not.toBeUndefined()
       expect(d.ErrorType).toBeOneOf([undefined, 'URL_UNREACHABLE'])
-      // expect(d.ErrorType).toBe('URL_UNREACHABLE')
     })
   })
 })
