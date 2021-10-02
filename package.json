@@ -1,6 +1,6 @@
 {
   "name": "ms-video-indexer",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "Unofficial Javascript client library for Microsoft Video Analyzer",
   "repository": {
     "type": "git",
