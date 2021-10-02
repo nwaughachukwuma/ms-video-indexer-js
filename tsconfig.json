@@ -12,7 +12,10 @@
       "strict": true,
       "resolveJsonModule": true,
       "skipLibCheck": true,
-      "declaration": true
+      "declaration": true,
+      "allowJs": true,
+      "baseUrl": ".",
+      "rootDir": "."
     },
     "include": ["**/*.ts", "**/*.d.ts"],
     "exclude": ["**/node_modules", "__tests__", "dist"]
