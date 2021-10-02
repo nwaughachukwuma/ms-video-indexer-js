@@ -1,6 +1,6 @@
 module.exports = {
   collectCoverage: true,
-  collectCoverageFrom: ['__tests__/*.spec.ts'],
+  collectCoverageFrom: ['__tests__/**/*.spec.ts'],
   coverageThreshold: {
     global: {
       branches: 100,
@@ -19,4 +19,5 @@ module.exports = {
   testMatch: ['**/__tests__/**/?(*.)+(spec|test).[tj]s?(x)'],
   testEnvironment: 'node',
   setupFilesAfterEnv: ['<rootDir>/__tests__/jest.setup.ts'],
+  slowTestThreshold: 15
 }

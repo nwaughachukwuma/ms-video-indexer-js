@@ -1,19 +1,14 @@
 import MSVI_API from '../index'
-import type { APIHandlers } from '../types'
+
+const { LOCATION, ACCOUNT_ID, SUBSCRIPTION_KEY } = process.env
+const msvpapi = MSVI_API({
+  location: LOCATION!,
+  accountId: ACCOUNT_ID!,
+  subscriptionKey: SUBSCRIPTION_KEY!,
+})
 
 describe('Upload a video for indexing', () => {
   jest.setTimeout(30000)
-
-  let msvpapi: APIHandlers
-  beforeAll(() => {
-    const { LOCATION, ACCOUNT_ID, SUBSCRIPTION_KEY } = process.env
-
-    msvpapi = MSVI_API({
-      location: LOCATION!,
-      accountId: ACCOUNT_ID!,
-      subscriptionKey: SUBSCRIPTION_KEY!,
-    })
-  })
 
   describe('Can upload video with a cloud URI', () => {
     const videoURL =
@@ -39,7 +34,6 @@ describe('Upload a video for indexing', () => {
       const response = await msvpapi.uploadVideo(invalidVideoURL, {
         name: randomKey,
       })
-
       // console.log('Response :=', response)
       expect(response).toBeTruthy()
       expect(response.ErrorType).toBeTruthy()

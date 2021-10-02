@@ -1,17 +1,14 @@
 import MSVI_API from '../index'
-import type { APIHandlers } from '../types'
 
-describe.only('Video Thumbnail String', () => {
-  let msvpapi: APIHandlers
-  beforeAll(() => {
-    const { LOCATION, ACCOUNT_ID, SUBSCRIPTION_KEY } = process.env
+const { LOCATION, ACCOUNT_ID, SUBSCRIPTION_KEY } = process.env
+const msvpapi = MSVI_API({
+  location: LOCATION!,
+  accountId: ACCOUNT_ID!,
+  subscriptionKey: SUBSCRIPTION_KEY!,
+})
 
-    msvpapi = MSVI_API({
-      location: LOCATION!,
-      accountId: ACCOUNT_ID!,
-      subscriptionKey: SUBSCRIPTION_KEY!,
-    })
-  })
+describe('Video Thumbnail String', () => {
+  jest.setTimeout(15000)
 
   describe('Can fetch video thumbnail from specified id', () => {
     const validIndexId = '2770eb7aca'
@@ -90,7 +87,7 @@ describe.only('Video Thumbnail String', () => {
       // console.log('Response :=', JSON.parse(response))
       expect(response).toBeTruthy()
       expect(typeof response).toBe('string')
-      expect(response.length).toBeGreaterThan(1)
+      expect(response.length).toBeTruthy()
 
       try {
         const result = JSON.parse(response)
