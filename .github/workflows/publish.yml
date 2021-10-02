@@ -26,7 +26,7 @@ jobs:
       - uses: borales/actions-yarn@v2.3.0
         with:
           cmd: install
-      - run: yarn test
+      - run: yarn test --forceExit
         env:
           LOCATION: ${{ secrets.LOCATION }}
           ACCOUNT_ID: ${{ secrets.ACCOUNT_ID }}
