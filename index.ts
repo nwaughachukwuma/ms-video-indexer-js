@@ -63,11 +63,7 @@ const MSVI_API = ({
           ...headers,
           Authorization: `Bearer ${accessToken}`,
         },
-      })
-        .then((r) => r.json())
-        .catch((e) => {
-          throw e
-        })
+      }).then((r) => r.json())
     },
 
     async getVideoIndex(indexId: string) {
@@ -80,11 +76,7 @@ const MSVI_API = ({
           ...headers,
           Authorization: `Bearer ${accessToken}`,
         },
-      })
-        .then((r) => r.json())
-        .catch((e) => {
-          throw e
-        })
+      }).then((r) => r.json())
     },
 
     async getVideoThumbnail(
@@ -105,11 +97,7 @@ const MSVI_API = ({
           ...headers,
           Authorization: `Bearer ${accessToken}`,
         },
-      })
-        .then((r) => r.text())
-        .catch((e) => {
-          throw e
-        })
+      }).then((r) => r.text())
     },
   }
 }

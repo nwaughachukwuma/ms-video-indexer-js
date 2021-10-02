@@ -1,6 +1,6 @@
 module.exports = {
   collectCoverage: true,
-  collectCoverageFrom: ['__tests__/**/*.spec.ts'],
+  collectCoverageFrom: ['./index.ts'],
   coverageThreshold: {
     global: {
       branches: 100,
