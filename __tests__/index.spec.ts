@@ -1,43 +1,38 @@
-import { APIHandlers } from '../lib.msvi-api'
 import MSVI_API from '../index'
 
+const { LOCATION, ACCOUNT_ID, SUBSCRIPTION_KEY } = process.env
+
 describe('Interact with Microsoft Video Indexer API', () => {
-  let msvpapi: APIHandlers
-
-  describe('Can get project auth token with right credentials', () => {
-    beforeEach(() => {
-      const { LOCATION, ACCOUNT_ID, SUBSCRIPTION_KEY } = process.env
-
-      msvpapi = MSVI_API({
-        location: LOCATION!,
-        accountId: ACCOUNT_ID!,
-        subscriptionKey: SUBSCRIPTION_KEY!,
-      })
+  describe('Can get access token with right credentials', () => {
+    const msvpapi = MSVI_API({
+      location: LOCATION!,
+      accountId: ACCOUNT_ID!,
+      subscriptionKey: SUBSCRIPTION_KEY!,
     })
 
-    it("Should return the project's auth token", async () => {
-      const token = await msvpapi.fetchCachedToken(true)
+    it('should return the access token', async () => {
+      const token = msvpapi.getCachedToken(true)
 
-      // console.log(token)
-      expect(token).toBeTruthy()
-      expect(token.length).toBeGreaterThan(1)
+      const d = await token
+      expect(d).toBeTruthy()
+      expect(d).toMatch(/ey*/)
     })
   })
 
   describe('Cannot get project auth token with wrong/missing credentials', () => {
-    beforeEach(() => {
-      msvpapi = MSVI_API({
-        location: '',
-        accountId: '',
-        subscriptionKey: '',
-      })
+    const msvpapi = MSVI_API({
+      location: '',
+      accountId: '',
+      subscriptionKey: '',
     })
 
-    it("Should return the project's auth token", async () => {
-      const token = await msvpapi.fetchCachedToken(true)
+    it('should fail to return access token', async () => {
+      const token = msvpapi.getCachedToken(true)
 
-      // console.log(token)
-      expect(token.length).toBeUndefined()
+      const d = await token
+      expect(d).toMatchObject({
+        ErrorType: 'LOCATION_NOT_FOUND',
+      })
     })
   })
 })

@@ -1,31 +1,23 @@
-import MSVI_API, { APIHandlers } from '../index'
+import MSVI_API from '../index'
 
-describe('Fetch Access Token', () => {
-  let msvpapi: APIHandlers
-  beforeAll(() => {
-    const { LOCATION, ACCOUNT_ID, SUBSCRIPTION_KEY } = process.env
+const { LOCATION, ACCOUNT_ID, SUBSCRIPTION_KEY } = process.env
+const msvpapi = MSVI_API({
+  location: LOCATION!,
+  accountId: ACCOUNT_ID!,
+  subscriptionKey: SUBSCRIPTION_KEY!,
+})
 
-    msvpapi = MSVI_API({
-      location: LOCATION!,
-      accountId: ACCOUNT_ID!,
-      subscriptionKey: SUBSCRIPTION_KEY!,
-    })
+describe('Fetch Access Token - can get access token', () => {
+  it('should return access token', async () => {
+    const token = msvpapi.getCachedToken()
+
+    const d = await token
+    expect(d).toMatch(/ey*/)
   })
+  it('can forceRefresh the access token', async () => {
+    const token = msvpapi.getCachedToken(true)
 
-  describe('Can get project auth token', () => {
-    it("Should return the project's auth token", async () => {
-      const token = await msvpapi.fetchCachedToken()
-
-      // console.log(token)
-      expect(token).toBeTruthy()
-      expect(token.length).toBeGreaterThan(1)
-    })
-    it("can forceRefresh the project's auth token", async () => {
-      const token = await msvpapi.fetchCachedToken(true)
-
-      // console.log(token)
-      expect(token).toBeTruthy()
-      expect(token.length).toBeGreaterThan(1)
-    })
+    const d = await token
+    expect(d).toMatch(/ey*/)
   })
 })

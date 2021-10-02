@@ -1,19 +1,23 @@
 {
     "compilerOptions": {
-      "module": "commonjs",
+      "module": "es6",
+      "lib": ["es6", "dom"],
+      "target": "es6",
       "noImplicitReturns": true,
       "esModuleInterop": true,
-      "outDir": "build",
-      "noEmit": true,
-      "sourceMap": true,
-      "inlineSources": true,
-      "sourceRoot": "/",
+      "outDir": "./dist",
+      "noEmit": false,
+      "moduleResolution": "node",
+      "allowSyntheticDefaultImports": true,
       "strict": true,
-      "target": "es2017",
       "resolveJsonModule": true,
-      "skipLibCheck": true
+      "skipLibCheck": true,
+      "declaration": true,
+      "allowJs": true,
+      "baseUrl": ".",
+      "rootDir": "."
     },
-    "include": ["./lib.msvi-api.d.ts"],
-    "exclude": ["**/node_modules"]
+    "include": ["**/*.ts", "**/*.d.ts"],
+    "exclude": ["**/node_modules", "__tests__", "dist"]
   }
   

@@ -1,16 +1,14 @@
-import MSVI_API, { APIHandlers } from '../index'
+import MSVI_API from '../index'
 
-describe.only('Video Thumbnail String', () => {
-  let msvpapi: APIHandlers
-  beforeAll(() => {
-    const { LOCATION, ACCOUNT_ID, SUBSCRIPTION_KEY } = process.env
+const { LOCATION, ACCOUNT_ID, SUBSCRIPTION_KEY } = process.env
+const msvpapi = MSVI_API({
+  location: LOCATION!,
+  accountId: ACCOUNT_ID!,
+  subscriptionKey: SUBSCRIPTION_KEY!,
+})
 
-    msvpapi = MSVI_API({
-      location: LOCATION!,
-      accountId: ACCOUNT_ID!,
-      subscriptionKey: SUBSCRIPTION_KEY!,
-    })
-  })
+describe('Video Thumbnail String', () => {
+  jest.setTimeout(15000)
 
   describe('Can fetch video thumbnail from specified id', () => {
     const validIndexId = '2770eb7aca'
@@ -19,84 +17,84 @@ describe.only('Video Thumbnail String', () => {
     const validUnrelatedThumbnailId = '8fcef147-8655-425d-b5e3-1062fd32838b'
     const randomThumbnailId = 'some-random-thumbnail-id'
 
-    it('Should fail to get video thumbnail when provided a wrong indexId', async () => {
-      const response = await msvpapi.getVideoThumbnail(
+    it('should fail to get video thumbnail indexId is wrong', async () => {
+      const response = msvpapi.getVideoThumbnail(
         wrongIndexId,
         randomThumbnailId,
       )
 
-      // console.log('Response :=', JSON.parse(response))
-      expect(response).toBeTruthy()
-      expect(typeof response).toBe('string')
-      const result = JSON.parse(response)
-
-      expect(result.message).toBeTruthy()
-      expect(result.message).toContain('The request is invalid')
+      const d = await response
+      expect(d).toBeTruthy()
+      expect(typeof d).toBe('string')
+      const result_1 = JSON.parse(d)
+      expect(result_1.message).toContain('The request is invalid')
     })
 
-    it('Should fail to get video thumbnail when provided a wrong thumbnailId', async () => {
-      const response = await msvpapi.getVideoThumbnail(
+    it('should fail to get video thumbnail when thumbnailId is wrong', async () => {
+      const response = msvpapi.getVideoThumbnail(
         validIndexId,
         randomThumbnailId,
       )
 
-      // console.log('Response :=', JSON.parse(response))
-      expect(response).toBeTruthy()
-      expect(typeof response).toBe('string')
-      const result = JSON.parse(response)
-
-      expect(result.message).toBeTruthy()
-      expect(result.message).toContain('The request is invalid')
+      const d = await response
+      expect(d).toBeTruthy()
+      expect(typeof d).toBe('string')
+      const result_1 = JSON.parse(d)
+      expect(result_1.message).toContain('The request is invalid')
     })
 
-    it('Should fail to get video thumbnail when provided an unrelated thumbnailId to a given video index', async () => {
-      const response = await msvpapi.getVideoThumbnail(
+    it('should fail to get video thumbnail when provided an unrelated thumbnailId', async () => {
+      const response = msvpapi.getVideoThumbnail(
         validIndexId,
         validUnrelatedThumbnailId,
       )
 
-      // console.log('Response :=', JSON.parse(response))
-      expect(response).toBeTruthy()
-
-      const result = JSON.parse(response)
-      expect(result.ErrorType).toBeTruthy()
-      expect(result.ErrorType).toBe('NOT_FOUND')
+      const d = await response
+      expect(d).toBeTruthy()
+      const result_1 = JSON.parse(d)
+      expect(result_1.ErrorType).toBeTruthy()
+      expect(result_1.ErrorType).toBe('NOT_FOUND')
     })
 
-    it('Should fail to get video thumbnail when provided the right video index and thumbnailId, but the wrong format', async () => {
+    it('should fail to get video thumbnail when provided the right video index and thumbnailId, but the wrong format', () => {
       const wrongFormat = 'TIFF'
+      const response = msvpapi.getVideoThumbnail(
+        validIndexId,
+        validThumbnailId,
+        // @ts-ignore
+        wrongFormat,
+      )
 
-      try {
-        await msvpapi.getVideoThumbnail(
-          validIndexId,
-          validThumbnailId,
-          // @ts-ignore
-          wrongFormat,
-        )
-      } catch (e) {
+      expect.assertions(3)
+      return response.catch((e) => {
         expect(e).toBeTruthy()
         expect(e).toBeInstanceOf(TypeError)
         expect(e.message).toContain('Wrong thumbnail format.')
-      }
+      })
     })
 
-    it('Should get video thumbnail when provided the right video index and thumbnailId', async () => {
-      const response = await msvpapi.getVideoThumbnail(
-        validIndexId,
-        validThumbnailId,
-      )
+    it('should get video thumbnail when provided valid input', async () => {
+      const response = msvpapi.getVideoThumbnail(validIndexId, validThumbnailId)
 
+      const d = await response
       // console.log('Response :=', JSON.parse(response))
-      expect(response).toBeTruthy()
-      expect(typeof response).toBe('string')
-      expect(response.length).toBeGreaterThan(1)
+      expect(d).toBeTruthy()
+      expect(typeof d).toBe('string')
+      expect(d.length).toBeTruthy()
+    })
 
-      try {
-        const result = JSON.parse(response)
-        expect(result.message).toBeUndefined()
-      } catch (e) {
-        expect(e).toBeInstanceOf(SyntaxError)
-      }
+    it('should get video thumbnail with the right shape, when provided valid input', () => {
+      const response = msvpapi.getVideoThumbnail(validIndexId, validThumbnailId)
+
+      expect.assertions(1)
+      return response
+        .then((d) => {
+          const result = JSON.parse(d)
+          expect(result.message).toBeUndefined()
+        })
+        .catch((e) => {
+          expect(e).toBeInstanceOf(SyntaxError)
+        })
     })
   })
 })
