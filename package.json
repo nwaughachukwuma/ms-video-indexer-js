@@ -23,9 +23,11 @@
   "type": "module",
   "main": "./dist/index.js",
   "exports": "./dist/index.js",
-  "types": "./dist/index.d.ts",
   "files": [
     "dist"
+  ],
+  "sideEffects": [
+    "./dist/index.js"
   ],
   "scripts": {
     "tsc": "tsc",
