@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-      "module": "es6",
+      "module": "esnext",
       "lib": ["es6", "dom"],
       "target": "es6",
       "noImplicitReturns": true,
