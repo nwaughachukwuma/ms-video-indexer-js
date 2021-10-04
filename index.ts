@@ -1,6 +1,6 @@
-import fetch from './p-fetch'
+import fetch from './p-fetch.js'
 import simpleCache from 'sma-cache'
-import { makeQueryString } from './util'
+import { makeQueryString } from './util.js'
 import type { Credentials, UploadVideoRequest, APIHandlers } from './types'
 
 const key = 'video_indexer_token'

@@ -1,3 +1,5 @@
+import require from './require.js'
+
 function isBrowser(this: any) {
   return typeof window !== 'undefined' && this === window
 }
