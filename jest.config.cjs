@@ -20,5 +20,8 @@ module.exports = {
   testMatch: ['**/__tests__/**/?(*.)+(spec|test).[tj]s?(x)'],
   testEnvironment: 'node',
   setupFilesAfterEnv: ['<rootDir>/__tests__/jest.setup.ts'],
-  slowTestThreshold: 15
+  slowTestThreshold: 15,
+  moduleNameMapper: {
+    "(.*)\\.js": "$1"
+  }
 }
