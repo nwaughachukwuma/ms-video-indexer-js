@@ -10,11 +10,8 @@ module.exports = {
       statements: 100,
     },
   },
-  preset: 'ts-jest',
-  transform: {
-    '^.+\\.jsx?$': 'babel-jest',
-    '^.+\\.tsx?$': 'ts-jest',
-  },
+  preset: 'ts-jest/presets/js-with-babel',
+  transform: {},
   transformIgnorePatterns: ['/node_modules/(?!sma-cache)'],
   reporters: ['default'],
   testMatch: ['**/__tests__/**/?(*.)+(spec|test).[tj]s?(x)'],
@@ -23,5 +20,11 @@ module.exports = {
   slowTestThreshold: 15,
   moduleNameMapper: {
     "(.*)\\.js": "$1"
-  }
+  },
+  extensionsToTreatAsEsm: ['.ts'],
+  globals: {
+    'ts-jest': {
+      useESM: true,
+    },
+  },
 }

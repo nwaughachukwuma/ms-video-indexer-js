@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals'
 import MSVI_API from '../index'
 
 const { LOCATION, ACCOUNT_ID, SUBSCRIPTION_KEY } = process.env

@@ -31,7 +31,8 @@
   ],
   "scripts": {
     "tsc": "tsc",
-    "test": "ava && jest",
+    "jest-esm": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test": "ava && yarn jest-esm",
     "lint": "eslint --fix \"**/*.ts\"",
     "prettify": "yarn lint && prettier --write \"**/*.(ts|cjs)\""
   },
