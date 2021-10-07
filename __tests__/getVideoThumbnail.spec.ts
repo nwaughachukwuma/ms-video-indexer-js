@@ -1,4 +1,3 @@
-import { jest } from '@jest/globals'
 import MSVI_API from '../index'
 
 const { LOCATION, ACCOUNT_ID, SUBSCRIPTION_KEY } = process.env
@@ -9,8 +8,6 @@ const msvpapi = MSVI_API({
 })
 
 describe('Video Thumbnail String', () => {
-  jest.setTimeout(15000)
-
   describe('Can fetch video thumbnail from specified id', () => {
     const validIndexId = '2770eb7aca'
     const wrongIndexId = 'some-random-id'

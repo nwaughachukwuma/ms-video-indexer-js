@@ -1,4 +1,3 @@
-import { jest } from '@jest/globals'
 import MSVI_API from '../index'
 
 const { LOCATION, ACCOUNT_ID, SUBSCRIPTION_KEY } = process.env
@@ -9,8 +8,6 @@ const msvpapi = MSVI_API({
 })
 
 describe('Upload a video for indexing', () => {
-  jest.setTimeout(30000)
-
   describe('Can upload video with a cloud URI', () => {
     const videoURL =
       'https://res.cloudinary.com/cpnwaugha/video/upload/v1615959768/VideoAI/Justice_League_Snyder_Cut_-_Official_Trailer_2_2021_Henry_Cavill_Ben_Affleck_Gal_Gadot.mp4'

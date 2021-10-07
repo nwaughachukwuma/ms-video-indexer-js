@@ -3,4 +3,5 @@ import { jest } from '@jest/globals'
 import 'jest-matcher-one-of'
 
 env.config()
-jest.setTimeout(10000)
+jest.setTimeout(15000)
+jest.useFakeTimers()
