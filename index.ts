@@ -1,6 +1,5 @@
 import fetch from './p-fetch.js'
 import simpleCache from 'sma-cache'
-import { makeQueryString } from './util.js'
 import type { Credentials, UploadVideoRequest, APIHandlers } from './types'
 
 const key = 'video_indexer_token'
@@ -9,6 +8,18 @@ const REQUEST_BUFFER = 60
 const ONE_HOUR = 60 * 60
 const ACCESS_TOKEN_EXPIRY = ONE_HOUR - REQUEST_BUFFER
 const cache = simpleCache(ACCESS_TOKEN_EXPIRY)
+const makeQueryString = (options: Record<string, any>) => {
+  const qs = Object.keys(options)
+    .filter((key) => !!options[key])
+    .map((key) => {
+      return `${encodeURIComponent(key)}=${encodeURIComponent(
+        options[key.toString()],
+      )}`
+    })
+    .join('&')
+
+  return qs
+}
 
 const MSVI_API = ({
   location,
