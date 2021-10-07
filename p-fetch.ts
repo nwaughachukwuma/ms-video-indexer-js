@@ -1,18 +1,14 @@
-import './require.js'
+const nodeFetch = () => import('node-fetch')
 
-function isBrowser(this: any) {
-  return typeof window !== 'undefined' && this === window
+function isBrowser() {
+  return typeof window !== 'undefined' && globalThis === window
 }
 
 async function pFetch(url: string, options: any) {
-  if (!isBrowser()) {
-    if (!globalThis.fetch) {
-      globalThis.fetch = require('node-fetch')
-    }
-    return globalThis.fetch(url, options)
+  if (isBrowser()) {
+    return window.fetch(url, options)
   }
-
-  return window.fetch(url, options)
+  return await nodeFetch().then(({ default: fetch }) => fetch(url, options))
 }
 
 export const fetch = pFetch
