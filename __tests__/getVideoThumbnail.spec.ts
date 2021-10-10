@@ -64,7 +64,7 @@ describe('Video Thumbnail String', () => {
       )
 
       expect.assertions(3)
-      return response.catch((e) => {
+      return response.catch((e: Error) => {
         expect(e).toBeTruthy()
         expect(e).toBeInstanceOf(TypeError)
         expect(e.message).toContain('Wrong thumbnail format.')
@@ -86,11 +86,11 @@ describe('Video Thumbnail String', () => {
 
       expect.assertions(1)
       return response
-        .then((d) => {
+        .then((d: any) => {
           const result = JSON.parse(d)
           expect(result.message).toBeUndefined()
         })
-        .catch((e) => {
+        .catch((e: Error) => {
           expect(e).toBeInstanceOf(SyntaxError)
         })
     })

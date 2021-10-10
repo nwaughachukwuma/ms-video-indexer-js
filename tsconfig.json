@@ -15,7 +15,8 @@
       "declaration": true,
       "allowJs": true,
       "baseUrl": ".",
-      "rootDir": "."
+      "rootDir": ".",
+      "types": ["node", "jest"]
     },
     "include": ["**/*.ts", "**/*.d.ts"],
     "exclude": ["**/node_modules", "__tests__", "dist"]
