@@ -27,7 +27,7 @@ jobs:
         with:
           cmd: install
       - run: yarn tsc
-      - run: yarn test --forceExit
+      - run: yarn test
         env:
           LOCATION: ${{ secrets.LOCATION }}
           ACCOUNT_ID: ${{ secrets.ACCOUNT_ID }}
