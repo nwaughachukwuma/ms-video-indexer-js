@@ -32,8 +32,7 @@
   "scripts": {
     "tsc": "tsc",
     "test": "ava",
-    "lint": "eslint --fix \"**/*.ts\"",
-    "prettify": "yarn lint && prettier --write \"**/*.(ts|cjs)\""
+    "lint": "eslint \"**/*.ts\""
   },
   "dependencies": {
     "node-fetch": "2.6.1",
