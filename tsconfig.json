@@ -16,9 +16,9 @@
       "allowJs": true,
       "baseUrl": ".",
       "rootDir": ".",
-      "types": ["node", "jest"]
+      "types": ["node"]
     },
     "include": ["**/*.ts", "**/*.d.ts"],
-    "exclude": ["**/node_modules", "__tests__", "dist"]
+    "exclude": ["**/node_modules", "dist"]
   }
   
