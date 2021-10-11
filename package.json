@@ -77,5 +77,10 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
+  },
+  "ava": {
+    "files": [
+			"ava.test/**/*"
+		]
   }
 }
