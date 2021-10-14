@@ -1,6 +1,6 @@
 import env from 'dotenv'
 import test from 'ava'
-import MSVI from '../dist/index.js'
+import videoAnalyzer from '../dist/index.js'
 
 /**
  * Fetch video thumbnail string
@@ -9,7 +9,7 @@ import MSVI from '../dist/index.js'
 env.config()
 
 const { LOCATION, ACCOUNT_ID, SUBSCRIPTION_KEY } = process.env
-const api = MSVI({
+const api = videoAnalyzer({
   location: LOCATION,
   accountId: ACCOUNT_ID,
   subscriptionKey: SUBSCRIPTION_KEY,
