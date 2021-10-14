@@ -30,9 +30,9 @@ npm install --save ms-video-indexer
 ## Example/Usage
 
 ```ts
-import MSVI from 'ms-video-indexer'
+import videoAnalyzer from 'ms-video-indexer'
 
-const api = MSVI({
+const api = videoAnalyzer({
   accountId: 'the-account-id',
   location: 'the-location',
   subscriptionKey: 'the-subscription-key',
@@ -45,16 +45,19 @@ const accessToken = await api.getCachedToken()
 const videoURL = 'https://url-to-a-downloadable-cloud-resource'
 const uuid = 'id-recognising-the-video-on-your-platform'
 
-await api.uploadVideo(videoURL, {name: 'Into the Spiderverse', externalId: uuid })
+await api.uploadVideo(videoURL, {
+  name: 'Into the Spiderverse',
+  externalId: uuid,
+})
 ```
 
 ## API
 
 ### getCachedToken(forceFetch?)
 
-Returns a promise to a cached access token. This functions ensures you don't always have to poll the access token 
+Returns a promise to a cached access token. This functions ensures you don't always have to poll the access token
 
-- it's fetched once and cached using [simple cache](https://github.com/nwaughachukwuma/sma-cache) for t < 60sec before it's refreshed. 
+- it's fetched once and cached using [simple cache](https://github.com/nwaughachukwuma/sma-cache) for t < 60sec before it's refreshed.
 - token is always valid within a 1hr expiry period.
 
 **forceFetch**
