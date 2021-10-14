@@ -12,7 +12,7 @@ const api = videoAnalyzer({
 })
 
 test('can fetch access token', async (t) => {
-  const token = await api.getAccessToken()
+  const token = await api.getCachedToken()
 
   t.is(typeof token, 'string')
   t.truthy(token)
@@ -20,7 +20,7 @@ test('can fetch access token', async (t) => {
 })
 
 test('can forceRefresh the access token', async (t) => {
-  const token = await api.getAccessToken(true)
+  const token = await api.getCachedToken(true)
 
   t.is(typeof token, 'string')
   t.truthy(token)
@@ -34,7 +34,7 @@ test('cannot fetch access token when invalid credentials', async (t) => {
     subscriptionKey: '',
   })
 
-  const token = await api.getAccessToken()
+  const token = await api.getCachedToken(true)
 
   t.is(typeof token, 'object')
   t.truthy(token.ErrorType)

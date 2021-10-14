@@ -59,7 +59,7 @@
       "eslint --fix",
       "prettier --write"
     ],
-    "./**/*.spec.{ts,js}": [
+    "ava.test/**/*.js": [
       "yarn test"
     ]
   },
