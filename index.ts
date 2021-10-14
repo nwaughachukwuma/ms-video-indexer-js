@@ -1,13 +1,16 @@
-import fetch from './p-fetch.js'
 import simpleCache from 'sma-cache'
 import type { Credentials, UploadVideoRequest, APIHandlers } from './types'
+const nodeFetch = () => import('node-fetch')
 
-const key = 'video_indexer_token'
-const baseUrl = 'https://api.videoindexer.ai'
-const REQUEST_BUFFER = 60
-const ONE_HOUR = 60 * 60
-const ACCESS_TOKEN_EXPIRY = ONE_HOUR - REQUEST_BUFFER
-const cache = simpleCache(ACCESS_TOKEN_EXPIRY)
+const isBrowser = () => {
+  return typeof window !== 'undefined' && globalThis === window
+}
+const fetch = async (url: string, options: any) => {
+  if (isBrowser()) {
+    return window.fetch(url, options)
+  }
+  return await nodeFetch().then(({ default: fetch }) => fetch(url, options))
+}
 const makeQueryString = (options: Record<string, any>) => {
   const qs = Object.keys(options)
     .filter((key) => !!options[key])
@@ -21,7 +24,14 @@ const makeQueryString = (options: Record<string, any>) => {
   return qs
 }
 
-const MSVI_API = ({
+const key = 'video_indexer_token'
+const baseUrl = 'https://api.videoindexer.ai'
+const REQUEST_BUFFER = 60
+const ONE_HOUR = 60 * 60
+const ACCESS_TOKEN_EXPIRY = ONE_HOUR - REQUEST_BUFFER
+const cache = simpleCache(ACCESS_TOKEN_EXPIRY)
+
+export const videoAnalyzer = ({
   location,
   accountId,
   subscriptionKey,
@@ -110,5 +120,4 @@ const MSVI_API = ({
   }
 }
 
-export const videoAnalyzer = MSVI_API
-export default MSVI_API
+export default videoAnalyzer
