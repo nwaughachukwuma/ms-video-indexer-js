@@ -93,11 +93,6 @@ export interface APIHandlers {
   getCachedToken(forceRefresh?: boolean): Promise<string>
 
   /**
-   * Note that Access tokens expire within 1 hour
-   */
-  getAccessToken(): Promise<string>
-
-  /**
    *
    * @param videoUrl the video downloadable URI on the cloud
    * @param options key value pair that overwrites the default options

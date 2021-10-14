@@ -46,20 +46,19 @@ export const videoAnalyzer = ({
     'Ocp-Apim-Subscription-Key': subscriptionKey,
   }
 
+  const getAccessToken = async () => {
+    const tokenUri = `${baseUrl}/Auth/${location}/Accounts/${accountId}/AccessToken?allowEdit=true`
+    const tokenRes = await fetch(tokenUri, { method: 'GET', headers })
+
+    return await tokenRes.json()
+  }
+
   return {
     async getCachedToken(forceRefresh = false) {
       if (forceRefresh) {
-        return await cache.set(key, this.getAccessToken())
+        return await cache.set(key, getAccessToken())
       }
-      return await (cache.get(key) || cache.set(key, this.getAccessToken()))
-    },
-
-    async getAccessToken() {
-      const tokenUri = `${baseUrl}/Auth/${location}/Accounts/${accountId}/AccessToken?allowEdit=true`
-
-      const tokenRes = await fetch(tokenUri, { method: 'GET', headers })
-
-      return await tokenRes.json()
+      return await (cache.get(key) || cache.set(key, getAccessToken()))
     },
 
     async uploadVideo(
