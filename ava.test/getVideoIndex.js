@@ -1,12 +1,12 @@
 import { LOCATION, SUBSCRIPTION_KEY, ACCOUNT_ID } from './init.js'
 import test from 'ava'
-import videoAnalyzer from '../lib/index.js'
+import videoIndexer from '../lib/index.js'
 
 /**
  * Fetch video indexing/analyses result
  */
 
-const api = videoAnalyzer({
+const api = videoIndexer({
   location: LOCATION,
   accountId: ACCOUNT_ID,
   subscriptionKey: SUBSCRIPTION_KEY,

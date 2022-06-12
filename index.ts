@@ -37,7 +37,7 @@ const defaultOptions = {
 }
 const thumbnailFormats = ['base64', 'Jpeg']
 
-export const videoAnalyzer = ({
+export const videoIndexer = ({
   location,
   accountId,
   subscriptionKey,
@@ -117,4 +117,4 @@ export const videoAnalyzer = ({
   }
 }
 
-export default videoAnalyzer
+export default videoIndexer

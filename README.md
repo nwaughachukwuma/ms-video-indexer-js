@@ -30,9 +30,9 @@ npm install --save ms-video-indexer
 ## Example/Usage
 
 ```ts
-import videoAnalyzer from 'ms-video-indexer'
+import videoIndexer from 'ms-video-indexer'
 
-const api = videoAnalyzer({
+const api = videoIndexer({
   accountId: 'the-account-id',
   location: 'the-location',
   subscriptionKey: 'the-subscription-key',
