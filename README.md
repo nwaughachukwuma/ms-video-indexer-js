@@ -1,6 +1,6 @@
-# ms-video-indexer-js
+# MS Azure Video Indexer
 
-Unofficial Javascript client library for Microsoft Video Analyzer
+Unofficial Javascript client library for Azure Video Indexer.
 
 ## Note
 
@@ -25,7 +25,7 @@ npm install --save ms-video-indexer
   - get video thumbnails for any item/model which described the video, such as face, scene or shot.
 - [x] Jest Test.
 - [x] Examples
-- [ ] Handlers for other API calls - May implement this based on request
+- [ ] Handlers for other API calls to be implemented based on need/request
 
 ## Example/Usage
 
@@ -39,13 +39,13 @@ const api = videoIndexer({
 })
 
 // to get the cached token
-const accessToken = await api.getCachedToken()
+const accessToken = await api.getToken()
 
 // to index a video
 const videoURL = 'https://url-to-a-downloadable-cloud-resource'
 const uuid = 'id-recognising-the-video-on-your-platform'
 
-await api.uploadVideo(videoURL, {
+await api.indexVideo(videoURL, {
   name: 'Into the Spiderverse',
   externalId: uuid,
 })
@@ -53,7 +53,7 @@ await api.uploadVideo(videoURL, {
 
 ## API
 
-### getCachedToken(forceFetch?)
+### getToken(forceFetch?)
 
 Returns a promise to a cached access token. This functions ensures you don't always have to poll the access token
 
@@ -65,7 +65,7 @@ Returns a promise to a cached access token. This functions ensures you don't alw
 
 Set to true to fetch a new token
 
-### uploadVideo(videoURL, options)
+### indexVideo(videoURL, options)
 
 Used to ingest a video to be analyzed.
 
@@ -120,7 +120,7 @@ interface UploadVideoRequest {
 }
 ```
 
-### getVideoIndex(videoId)
+### getIndexedOutput(videoId)
 
 Used to retrieve/fetch the result of a successful index operation.
 
@@ -129,7 +129,7 @@ Used to retrieve/fetch the result of a successful index operation.
 
 The id of the indexed video.
 
-### getVideoThumbnail(videoId, thumbnailId, format?)
+### getThumbnail(videoId, thumbnailId, format?)
 
 Used to retrieve video thumbnail.
 
@@ -146,7 +146,7 @@ A `guid` string identifying the thumbnail.
 **format**
 `Type: undefined|'base64'|'Jpeg'`
 
-Preferred thumbnail format. Allowed values are `Jpeg` and `Base64`. Defaults to `base64`
+The preferred thumbnail format. Allowed values are `Jpeg` and `Base64`. Defaults to `base64`
 
 ## References
 
