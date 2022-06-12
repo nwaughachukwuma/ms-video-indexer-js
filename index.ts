@@ -9,7 +9,7 @@ const fetch = async (url: string, options: any) => {
   if (isBrowser()) {
     return window.fetch(url, options)
   }
-  return await nodeFetch().then(({ default: fetch }) => fetch(url, options))
+  return nodeFetch().then(({ default: fetch }) => fetch(url, options))
 }
 const makeQueryString = (options: Record<string, any>) => {
   const qs = Object.keys(options)
@@ -44,68 +44,72 @@ export const videoAnalyzer = ({
 }: Credentials): APIHandlers => {
   async function getAccessToken() {
     const URI = `${baseUrl}/Auth/${location}/Accounts/${accountId}/AccessToken?allowEdit=true`
-    const res = await fetch(URI, {
+
+    return fetch(URI, {
       method: 'GET',
       headers: { 'Ocp-Apim-Subscription-Key': subscriptionKey },
-    })
+    }).then((r) => r.json())
+  }
 
-    return res.json()
+  async function getToken(forceRefresh = false): Promise<string> {
+    if (forceRefresh) {
+      return cache.set(key, getAccessToken())
+    }
+    return cache.get(key) || cache.set(key, getAccessToken())
+  }
+
+  async function indexVideo(
+    videoUrl: UploadVideoRequest['videoUrl'],
+    options: UploadVideoRequest,
+  ) {
+    const _options = Object.assign(defaultOptions, { ...options, videoUrl })
+    const urlQuery = makeQueryString(_options)
+    const accessToken = await getToken()
+    const URI = `${baseUrl}/${location}/Accounts/${accountId}/Videos?${urlQuery}`
+
+    return fetch(URI, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${accessToken}` },
+    }).then((r) => r.json())
+  }
+
+  async function getIndexedOutput(indexId: string) {
+    const accessToken = await getToken()
+    const indexUri = `${baseUrl}/${location}/Accounts/${accountId}/Videos/${indexId}/Index?includeStreamingUrls=true`
+
+    return fetch(indexUri, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }).then((r) => r.json())
+  }
+
+  async function getThumbnail(
+    indexId: string,
+    thumbnailId: string,
+    format: 'Jpeg' | 'base64' = 'base64',
+  ) {
+    if (!thumbnailFormats.includes(format)) {
+      throw new TypeError(
+        'Wrong thumbnail format. Allowed values: Base64; Jpeg',
+      )
+    }
+
+    const accessToken = await getToken()
+    const URI = `${baseUrl}/${location}/Accounts/${accountId}/Videos/${indexId}/Thumbnails/${thumbnailId}?format=${format}`
+
+    return fetch(URI, {
+      method: 'GET',
+      headers: { Authorization: `Bearer ${accessToken}` },
+    }).then((r) => r.text())
   }
 
   return {
-    async getToken(forceRefresh = false) {
-      if (forceRefresh) {
-        return cache.set(key, getAccessToken())
-      }
-      return cache.get(key) || cache.set(key, getAccessToken())
-    },
-
-    async indexVideo(
-      videoUrl: UploadVideoRequest['videoUrl'],
-      options: UploadVideoRequest,
-    ) {
-      const _options = Object.assign(defaultOptions, { ...options, videoUrl })
-      const urlQuery = makeQueryString(_options)
-      const accessToken = await this.getToken()
-      const URI = `${baseUrl}/${location}/Accounts/${accountId}/Videos?${urlQuery}`
-
-      return fetch(URI, {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${accessToken}` },
-      }).then((r) => r.json())
-    },
-
-    async getIndexedOutput(indexId: string) {
-      const accessToken = await this.getToken()
-      const indexUri = `${baseUrl}/${location}/Accounts/${accountId}/Videos/${indexId}/Index?includeStreamingUrls=true`
-
-      return await fetch(indexUri, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }).then((r) => r.json())
-    },
-
-    async getThumbnail(
-      indexId: string,
-      thumbnailId: string,
-      format: 'Jpeg' | 'base64' = 'base64',
-    ) {
-      if (!thumbnailFormats.includes(format)) {
-        throw new TypeError(
-          'Wrong thumbnail format. Allowed values: Base64; Jpeg',
-        )
-      }
-
-      const accessToken = await this.getToken()
-      const URI = `${baseUrl}/${location}/Accounts/${accountId}/Videos/${indexId}/Thumbnails/${thumbnailId}?format=${format}`
-
-      return fetch(URI, {
-        method: 'GET',
-        headers: { Authorization: `Bearer ${accessToken}` },
-      }).then((r) => r.text())
-    },
+    getToken,
+    indexVideo,
+    getIndexedOutput,
+    getThumbnail,
   }
 }
 
