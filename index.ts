@@ -24,96 +24,86 @@ const makeQueryString = (options: Record<string, any>) => {
   return qs
 }
 
-const key = 'video_indexer_token'
+const key = 'video_indexer'
 const baseUrl = 'https://api.videoindexer.ai'
 const REQUEST_BUFFER = 60
 const ONE_HOUR = 60 * 60
 const ACCESS_TOKEN_EXPIRY = ONE_HOUR - REQUEST_BUFFER
 const cache = simpleCache(ACCESS_TOKEN_EXPIRY)
+const defaultOptions = {
+  sendSuccessEmail: false,
+  streamingPreset: 'NoStreaming',
+  privacy: 'Private',
+}
+const thumbnailFormats = ['base64', 'Jpeg']
 
 export const videoAnalyzer = ({
   location,
   accountId,
   subscriptionKey,
 }: Credentials): APIHandlers => {
-  const defaultOptions = {
-    sendSuccessEmail: false,
-    streamingPreset: 'NoStreaming',
-    privacy: 'Private',
-  }
+  async function getAccessToken() {
+    const URI = `${baseUrl}/Auth/${location}/Accounts/${accountId}/AccessToken?allowEdit=true`
+    const res = await fetch(URI, {
+      method: 'GET',
+      headers: { 'Ocp-Apim-Subscription-Key': subscriptionKey },
+    })
 
-  const headers = {
-    'Ocp-Apim-Subscription-Key': subscriptionKey,
-  }
-
-  const getAccessToken = async () => {
-    const tokenUri = `${baseUrl}/Auth/${location}/Accounts/${accountId}/AccessToken?allowEdit=true`
-    const tokenRes = await fetch(tokenUri, { method: 'GET', headers })
-
-    return await tokenRes.json()
+    return res.json()
   }
 
   return {
-    async getCachedToken(forceRefresh = false) {
+    async getToken(forceRefresh = false) {
       if (forceRefresh) {
-        return await cache.set(key, getAccessToken())
+        return cache.set(key, getAccessToken())
       }
-      return await (cache.get(key) || cache.set(key, getAccessToken()))
+      return cache.get(key) || cache.set(key, getAccessToken())
     },
 
-    async uploadVideo(
+    async indexVideo(
       videoUrl: UploadVideoRequest['videoUrl'],
       options: UploadVideoRequest,
     ) {
-      options = Object.assign(defaultOptions, {
-        ...options,
-        videoUrl: videoUrl,
-      })
+      const _options = Object.assign(defaultOptions, { ...options, videoUrl })
+      const urlQuery = makeQueryString(_options)
+      const accessToken = await this.getToken()
+      const URI = `${baseUrl}/${location}/Accounts/${accountId}/Videos?${urlQuery}`
 
-      const urlQuery = makeQueryString(options)
-      const accessToken = await this.getCachedToken()
-      const uploadUri = `${baseUrl}/${location}/Accounts/${accountId}/Videos?${urlQuery}`
-
-      return await fetch(uploadUri, {
+      return fetch(URI, {
         method: 'POST',
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${accessToken}`,
-        },
+        headers: { Authorization: `Bearer ${accessToken}` },
       }).then((r) => r.json())
     },
 
-    async getVideoIndex(indexId: string) {
-      const accessToken = await this.getCachedToken()
+    async getIndexedOutput(indexId: string) {
+      const accessToken = await this.getToken()
       const indexUri = `${baseUrl}/${location}/Accounts/${accountId}/Videos/${indexId}/Index?includeStreamingUrls=true`
 
       return await fetch(indexUri, {
         method: 'GET',
         headers: {
-          ...headers,
           Authorization: `Bearer ${accessToken}`,
         },
       }).then((r) => r.json())
     },
 
-    async getVideoThumbnail(
+    async getThumbnail(
       indexId: string,
       thumbnailId: string,
       format: 'Jpeg' | 'base64' = 'base64',
     ) {
-      if (!['base64', 'Jpeg'].includes(format)) {
-        throw TypeError('Wrong thumbnail format. Allowed values: Jpeg/Base64')
+      if (!thumbnailFormats.includes(format)) {
+        throw new TypeError(
+          'Wrong thumbnail format. Allowed values: Base64; Jpeg',
+        )
       }
 
-      const accessToken = await this.getCachedToken()
-      const indexUri = `${baseUrl}/${location}/Accounts/${accountId}/Videos/${indexId}/Thumbnails/${thumbnailId}?format=${format}`
+      const accessToken = await this.getToken()
+      const URI = `${baseUrl}/${location}/Accounts/${accountId}/Videos/${indexId}/Thumbnails/${thumbnailId}?format=${format}`
 
-      return await fetch(indexUri, {
+      return fetch(URI, {
         method: 'GET',
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${accessToken}`,
-        },
+        headers: { Authorization: `Bearer ${accessToken}` },
       }).then((r) => r.text())
     },
   }

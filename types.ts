@@ -90,19 +90,19 @@ export interface APIHandlers {
    * Cache the access token using sma-cache
    * @param forceRefresh force fetch a new access token
    */
-  getCachedToken(forceRefresh?: boolean): Promise<string>
+  getToken(forceRefresh?: boolean): Promise<string>
 
   /**
    *
    * @param videoUrl the video downloadable URI on the cloud
    * @param options key value pair that overwrites the default options
    */
-  uploadVideo(videoURL: string, options: UploadVideoRequest): Promise<any>
+  indexVideo(videoURL: string, options: UploadVideoRequest): Promise<any>
 
   /**
    * @param indexId indexed video id
    */
-  getVideoIndex(
+  getIndexedOutput(
     indexId: string,
   ): Promise<GetVideoIndexResponseSuccess | GetVideoIndexResponseError>
 
@@ -111,7 +111,7 @@ export interface APIHandlers {
    * @param thumbnailId the id of model's thumbnail item
    * @param format (optional )Thumbnail format. Allowed values: Jpeg/Base64
    */
-  getVideoThumbnail(
+  getThumbnail(
     indexId: string,
     thumbnailId: string,
     format?: 'base64' | 'Jpeg',
