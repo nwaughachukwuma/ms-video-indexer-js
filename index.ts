@@ -6,7 +6,13 @@ import type {
   GetVideoIndexResponseSuccess,
   ResponseError,
 } from './types'
-import fetch from 'cross-fetch'
+
+const nodeFetch = () => import('node-fetch')
+const isBrowser = () => typeof window !== 'undefined' && globalThis === window
+async function fetch(url: string, options: any) {
+  if (isBrowser()) return window.fetch(url, options)
+  return nodeFetch().then(({ default: fetch }) => fetch(url, options))
+}
 
 const makeQueryString = (options: Record<string, any>) =>
   Object.entries(options)

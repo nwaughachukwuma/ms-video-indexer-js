@@ -43,13 +43,13 @@
     "lint": "eslint \"**/*.ts\""
   },
   "dependencies": {
-    "cross-fetch": "^3.1.5",
+    "node-fetch": "^2.6.7",
     "sma-cache": "^0.1.2"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.18.2",
     "@types/node": "^16.10.2",
-    "@types/node-fetch": "^3.0.3",
+    "@types/node-fetch": "^2.6.1",
     "@typescript-eslint/parser": "4.32.0",
     "ava": "^4.3.0",
     "dotenv": "^8.2.0",
