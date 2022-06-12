@@ -1,6 +1,6 @@
 {
   "name": "ms-video-indexer",
-  "version": "0.1.8",
+  "version": "0.2.0",
   "description": "Unofficial Javascript client library for Microsoft Video Analyzer",
   "repository": {
     "type": "git",
@@ -18,20 +18,28 @@
     "Video AI",
     "Video Insights",
     "Decode Video",
-    "Video Analyzer"
+    "Video Analyzer",
+    "Azure Video Indexer"
   ],
   "type": "module",
-  "main": "./dist/index.js",
-  "exports": "./dist/index.js",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./lib/index.js",
+      "require": "./lib/index.cjs"
+    }
+  },
   "files": [
-    "dist"
+    "lib"
   ],
   "sideEffects": [
-    "./dist/index.js"
+    "./lib/index.js"
   ],
   "scripts": {
-    "tsc": "tsc",
-    "test": "ava",
+    "build": "tsc && tsup",
+    "test:types": "tsd",
+    "test": "tsd && ava",
     "lint": "eslint \"**/*.ts\""
   },
   "dependencies": {
@@ -39,11 +47,11 @@
     "sma-cache": "^0.1.2"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.18.2",
     "@types/node": "^16.10.2",
     "@types/node-fetch": "^3.0.3",
     "@typescript-eslint/parser": "4.32.0",
     "ava": "^4.3.0",
-    "babel-eslint": "^10.1.0",
     "dotenv": "^8.2.0",
     "eslint": "7.22.0",
     "eslint-config-prettier": "8.1.0",
@@ -52,15 +60,14 @@
     "lint-staged": "10.5.4",
     "prettier": "2.4.1",
     "ts-node": "^10.2.1",
+    "tsd": "^0.20.0",
+    "tsup": "^6.1.2",
     "typescript": "^4.4.3"
   },
   "lint-staged": {
     "./**/*.{ts,js}": [
       "eslint --fix",
       "prettier --write"
-    ],
-    "ava.test/**/*.js": [
-      "yarn test"
     ]
   },
   "husky": {
@@ -70,7 +77,11 @@
   },
   "ava": {
     "files": [
-			"ava.test/**/*"
-		]
+      "ava.test/**/*",
+      "!ava.test/init.js"
+    ]
+  },
+  "tsd": {
+    "directory": "./tsd"
   }
 }

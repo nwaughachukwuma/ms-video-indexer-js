@@ -1,14 +1,11 @@
-import env from 'dotenv'
+import { LOCATION, SUBSCRIPTION_KEY, ACCOUNT_ID } from './init.js'
 import test from 'ava'
-import videoAnalyzer from '../dist/index.js'
+import videoIndexer from '../lib/index.js'
 
 /**
  * Can upload a video for indexing
  */
-
-env.config()
-const { LOCATION, ACCOUNT_ID, SUBSCRIPTION_KEY } = process.env
-const api = videoAnalyzer({
+const api = videoIndexer({
   location: LOCATION,
   accountId: ACCOUNT_ID,
   subscriptionKey: SUBSCRIPTION_KEY,
@@ -27,15 +24,15 @@ test('should upload a video with valid cloud URI', async (t) => {
   const videoURL =
     'https://res.cloudinary.com/cpnwaugha/video/upload/v1615959768/VideoAI/Justice_League_Snyder_Cut_-_Official_Trailer_2_2021_Henry_Cavill_Ben_Affleck_Gal_Gadot.mp4'
 
-  const response = await api.uploadVideo(videoURL, { name: randomKey })
+  const response = await api.indexVideo(videoURL, { name: randomKey })
   t.truthy(response)
   t.is(possibleResponses.includes(response.ErrorType), true)
 })
 
 /* Attempt to upload video with a cloud URI */
-test('should fail to upload a video with an unreachable cloud URI', async (t) => {
+test('fails to upload a video with an unreachable cloud URI', async (t) => {
   const invalidVideoURL = 'https://some-invalid-video-url.com'
-  const response = await api.uploadVideo(invalidVideoURL, { name: randomKey })
+  const response = await api.indexVideo(invalidVideoURL, { name: randomKey })
   const possibleResponses = [undefined, 'URL_UNREACHABLE']
 
   t.truthy(response)

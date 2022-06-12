@@ -1,15 +1,12 @@
-import env from 'dotenv'
+import { LOCATION, SUBSCRIPTION_KEY, ACCOUNT_ID } from './init.js'
 import test from 'ava'
-import videoAnalyzer from '../dist/index.js'
+import videoIndexer from '../lib/index.js'
 
 /**
  * Fetch video indexing/analyses result
  */
 
-env.config()
-
-const { LOCATION, ACCOUNT_ID, SUBSCRIPTION_KEY } = process.env
-const api = videoAnalyzer({
+const api = videoIndexer({
   location: LOCATION,
   accountId: ACCOUNT_ID,
   subscriptionKey: SUBSCRIPTION_KEY,
@@ -20,7 +17,7 @@ const validIndexId = '2770eb7aca'
 const wrongIndexId = 'some-random-id'
 
 test('should fetch result for a valid indexId', async (t) => {
-  const response = await api.getVideoIndex(validIndexId)
+  const response = await api.getIndexedOutput(validIndexId)
 
   t.truthy(response)
   if ('id' in response) {
@@ -34,7 +31,7 @@ test('should fetch result for a valid indexId', async (t) => {
 })
 
 test('fails to fetch result when provided wrong indexId', async (t) => {
-  const response = await api.getVideoIndex(wrongIndexId)
+  const response = await api.getIndexedOutput(wrongIndexId)
 
   t.truthy(response)
   if ('ErrorType' in response) {
