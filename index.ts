@@ -20,8 +20,8 @@ const makeQueryString = (options: Record<string, any>) =>
 
 const key = 'video_indexer'
 const baseUrl = 'https://api.videoindexer.ai'
-const REQUEST_BUFFER = 60
-const ONE_HOUR = 60 * 60
+const REQUEST_BUFFER = 60 * 1000
+const ONE_HOUR = 60 * 60 * 1000
 const ACCESS_TOKEN_EXPIRY = ONE_HOUR - REQUEST_BUFFER
 const cache = simpleCache(ACCESS_TOKEN_EXPIRY)
 const defaultOptions = {
