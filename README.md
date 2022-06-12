@@ -1,10 +1,6 @@
 # MS Azure Video Indexer
 
-Unofficial Javascript client library for Azure Video Indexer.
-
-## Note
-
-This project is a WIP - Feel free to contribute an API you find useful to your project
+Unofficial Javascript client library for Azure Video Indexer, with support for a couple of API's: `accessToken`, `index/upload video`, `indexed Output`, and `image (Jpeg/base64)` from thumbnail-id. Feel free to contribute an API you find useful to your project
 
 ## Installation
 
