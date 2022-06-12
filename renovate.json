@@ -10,6 +10,6 @@
       }
     ],
     "extends": ["group:monorepos"],
-    "schedule": ["everyday"]
+    "schedule": ["every weekday"]
   }
   
