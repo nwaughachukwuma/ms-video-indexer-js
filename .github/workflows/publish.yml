@@ -1,6 +1,15 @@
 name: Publish package to npm
 on: 
-  - push
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "index.ts"
+      - "README.md"
+      - ".github/workflows/publish.yml"
+    tags:
+      - "v*"
 jobs:
   publish:
     name: test on Node.js ${{ matrix.node-version }}
@@ -11,6 +20,8 @@ jobs:
         node-version:
           - 16
           - 14
+    env:
+      TAGGED: ${{ startsWith(github.ref, 'refs/tags/') && matrix.node-version == 14}}
     steps: 
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -21,18 +32,22 @@ jobs:
         with:
           path: |
             **/node_modules
-          key: ${{ runner.os }}-${{ matrix.node-version }}-modules-${{ hashFiles('**/yarn.lock') }}
-      - uses: borales/actions-yarn@v3.0.0
-        with:
-          cmd: install
-      - run: yarn lint
-      - run: yarn build
-      - run: yarn test
+          key: ${{ runner.os }}-${{ matrix.node-version }}-modules-${{ hashFiles('**/package-lock.json') }}
+      - run: npm install
+      - run: npm run lint
+      - run: npm run build
+      - run: npm run test
         env:
           LOCATION: ${{ secrets.LOCATION }}
           ACCOUNT_ID: ${{ secrets.ACCOUNT_ID }}
           SUBSCRIPTION_KEY: ${{ secrets.SUBSCRIPTION_KEY }}
-      - if: matrix.node-version == 14
+      - if: ${{ env.TAGGED}}
         uses: JS-DevTools/npm-publish@v1
         with:
           token: ${{ secrets.NPM_TOKEN }}
+      - if: ${{ env.TAGGED}}
+        uses: softprops/action-gh-release@v1
+        with:
+          generate_release_notes: true
+          files: |
+            ./lib/**/*.ts
