@@ -2,27 +2,21 @@ import simpleCache from 'sma-cache'
 import type { Credentials, UploadVideoRequest, APIHandlers } from './types'
 const nodeFetch = () => import('node-fetch')
 
-const isBrowser = () => {
-  return typeof window !== 'undefined' && globalThis === window
-}
-const fetch = async (url: string, options: any) => {
+const isBrowser = () => typeof window !== 'undefined' && globalThis === window
+async function fetch(url: string, options: any) {
   if (isBrowser()) {
     return window.fetch(url, options)
   }
   return nodeFetch().then(({ default: fetch }) => fetch(url, options))
 }
-const makeQueryString = (options: Record<string, any>) => {
-  const qs = Object.keys(options)
-    .filter((key) => !!options[key])
-    .map((key) => {
-      return `${encodeURIComponent(key)}=${encodeURIComponent(
-        options[key.toString()],
-      )}`
-    })
+const makeQueryString = (options: Record<string, any>) =>
+  Object.entries(options)
+    .filter(([, value]) => !!value)
+    .map(
+      ([key, value]) =>
+        `${encodeURIComponent(key)}=${encodeURIComponent(value)}`,
+    )
     .join('&')
-
-  return qs
-}
 
 const key = 'video_indexer'
 const baseUrl = 'https://api.videoindexer.ai'
