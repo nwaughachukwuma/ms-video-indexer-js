@@ -35,14 +35,14 @@
     "lint": "eslint \"**/*.ts\""
   },
   "dependencies": {
-    "node-fetch": "2.6.1",
-    "sma-cache": "^0.0.6"
+    "node-fetch": "3.2.6",
+    "sma-cache": "^0.1.2"
   },
   "devDependencies": {
     "@types/node": "^16.10.2",
     "@types/node-fetch": "^3.0.3",
     "@typescript-eslint/parser": "4.32.0",
-    "ava": "^3.15.0",
+    "ava": "^4.3.0",
     "babel-eslint": "^10.1.0",
     "dotenv": "^8.2.0",
     "eslint": "7.22.0",
