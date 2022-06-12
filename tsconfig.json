@@ -1,26 +1,20 @@
 {
     "compilerOptions": {
-      "module": "esnext",
-      "lib": ["es6", "dom"],
+      "incremental": true,
       "target": "es6",
-      "noImplicitReturns": true,
-      "esModuleInterop": true,
-      "outDir": "./lib",
-      "noEmit": false,
+      "lib": ["es6", "dom"],
+      "module": "esnext",
       "moduleResolution": "node",
+      "esModuleInterop": true,
       "allowSyntheticDefaultImports": true,
-      "strict": true,
-      "resolveJsonModule": true,
-      "skipLibCheck": true,
-      "declaration": true,
-      "allowJs": true,
+      "outDir": "./lib",
       "baseUrl": ".",
-      "rootDir": ".",
-      "types": ["node"],
-      "checkJs": true,
-      "incremental": true
+      "declaration": true,
+      "noImplicitReturns": true,
+      "resolveJsonModule": true,
+      "skipLibCheck": true
     },
-    "include": ["**/*.ts", "**/*.d.ts", "ava.test/**/*.js"],
-    "exclude": ["**/node_modules", "lib"]
+    "include": ["index.ts", "types.ts"],
+    "exclude": ["node_modules", "lib"]
   }
   
