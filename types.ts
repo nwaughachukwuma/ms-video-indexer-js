@@ -80,7 +80,7 @@ export interface GetVideoIndexResponseSuccess {
   videos: Record<string, any>[]
 }
 
-export interface GetVideoIndexResponseError {
+export interface ResponseError {
   ErrorType: string
   Message: string
 }
@@ -90,7 +90,7 @@ export interface APIHandlers {
    * Cache the access token using sma-cache
    * @param forceRefresh force fetch a new access token
    */
-  getToken(forceRefresh?: boolean): Promise<string>
+  getToken(forceRefresh?: boolean): Promise<string | ResponseError>
 
   /**
    *
@@ -104,7 +104,7 @@ export interface APIHandlers {
    */
   getIndexedOutput(
     indexId: string,
-  ): Promise<GetVideoIndexResponseSuccess | GetVideoIndexResponseError>
+  ): Promise<GetVideoIndexResponseSuccess | ResponseError>
 
   /**
    * @param indexId indexed video id

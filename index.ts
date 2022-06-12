@@ -1,5 +1,11 @@
 import simpleCache from 'sma-cache'
-import type { Credentials, UploadVideoRequest, APIHandlers } from './types'
+import type {
+  Credentials,
+  UploadVideoRequest,
+  APIHandlers,
+  GetVideoIndexResponseSuccess,
+  ResponseError,
+} from './types'
 const nodeFetch = () => import('node-fetch')
 
 const isBrowser = () => typeof window !== 'undefined' && globalThis === window
@@ -42,10 +48,12 @@ export const videoAnalyzer = ({
     return fetch(URI, {
       method: 'GET',
       headers: { 'Ocp-Apim-Subscription-Key': subscriptionKey },
-    }).then((r) => r.json())
+    }).then((r) => r.json()) as Promise<string | ResponseError>
   }
 
-  async function getToken(forceRefresh = false): Promise<string> {
+  async function getToken(
+    forceRefresh = false,
+  ): Promise<string | ResponseError> {
     if (forceRefresh) {
       return cache.set(key, getAccessToken())
     }
@@ -76,7 +84,9 @@ export const videoAnalyzer = ({
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
-    }).then((r) => r.json())
+    }).then((r) => r.json()) as Promise<
+      GetVideoIndexResponseSuccess | ResponseError
+    >
   }
 
   async function getThumbnail(
