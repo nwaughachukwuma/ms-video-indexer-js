@@ -5,7 +5,7 @@
       "target": "es6",
       "noImplicitReturns": true,
       "esModuleInterop": true,
-      "outDir": "./dist",
+      "outDir": "./lib",
       "noEmit": false,
       "moduleResolution": "node",
       "allowSyntheticDefaultImports": true,
@@ -16,9 +16,11 @@
       "allowJs": true,
       "baseUrl": ".",
       "rootDir": ".",
-      "types": ["node"]
+      "types": ["node"],
+      "checkJs": true,
+      "incremental": true
     },
-    "include": ["**/*.ts", "**/*.d.ts"],
-    "exclude": ["**/node_modules", "dist"]
+    "include": ["**/*.ts", "**/*.d.ts", "ava.test/**/*.js"],
+    "exclude": ["**/node_modules", "lib"]
   }
   

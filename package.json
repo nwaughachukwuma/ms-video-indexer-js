@@ -18,16 +18,23 @@
     "Video AI",
     "Video Insights",
     "Decode Video",
-    "Video Analyzer"
+    "Video Analyzer",
+    "Azure Video Indexer"
   ],
   "type": "module",
-  "main": "./dist/index.js",
-  "exports": "./dist/index.js",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./lib/index.js",
+      "require": "./lib/index.cjs"
+    }
+  },
   "files": [
-    "dist"
+    "lib"
   ],
   "sideEffects": [
-    "./dist/index.js"
+    "./lib/index.js"
   ],
   "scripts": {
     "tsc": "tsc",
@@ -70,7 +77,8 @@
   },
   "ava": {
     "files": [
-			"ava.test/**/*"
+			"ava.test/**/*",
+      "!ava.test/init.js"
 		]
   }
 }
