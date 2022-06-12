@@ -38,7 +38,8 @@
   ],
   "scripts": {
     "build": "tsc && tsup",
-    "test": "ava",
+    "test:types": "tsd",
+    "test": "tsd && ava",
     "lint": "eslint \"**/*.ts\""
   },
   "dependencies": {
@@ -59,6 +60,7 @@
     "lint-staged": "10.5.4",
     "prettier": "2.4.1",
     "ts-node": "^10.2.1",
+    "tsd": "^0.20.0",
     "tsup": "^6.1.2",
     "typescript": "^4.4.3"
   },
@@ -78,5 +80,8 @@
       "ava.test/**/*",
       "!ava.test/init.js"
     ]
+  },
+  "tsd": {
+    "directory": "./tsd"
   }
 }
