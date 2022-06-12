@@ -19,7 +19,7 @@ jobs:
     outputs:
       TAGGED: ${{ startsWith(github.ref, 'refs/tags/') && matrix.node-version == 14 }}
     steps:
-      - run: echo "${{ toJSON(env) }}"
+      - run: echo "prepare complete"
   
   test:
     runs-on: ubuntu-latest
@@ -41,7 +41,7 @@ jobs:
           path: |
             **/node_modules
           key: ${{ runner.os }}-${{ matrix.node-version }}-modules-${{ hashFiles('**/package-lock.json') }}
-      - run: npm ci
+      - run: npm install
       - run: npm run lint
       - run: npm run build
       - name: Test ✅
