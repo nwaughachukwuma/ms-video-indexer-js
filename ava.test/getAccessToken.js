@@ -1,10 +1,10 @@
-import env from 'dotenv'
+import { LOCATION, SUBSCRIPTION_KEY, ACCOUNT_ID } from './init.js'
 import test from 'ava'
-import videoAnalyzer from '../dist/index.js'
+import videoAnalyzer from '../lib/index.js'
 
-/** Interact with Microsoft Video Indexer API and fetch access token */
-env.config()
-const { LOCATION, ACCOUNT_ID, SUBSCRIPTION_KEY } = process.env
+/**
+ * Interact with Microsoft Video Indexer API and fetch access token
+ */
 const api = videoAnalyzer({
   location: LOCATION,
   accountId: ACCOUNT_ID,
@@ -12,7 +12,7 @@ const api = videoAnalyzer({
 })
 
 test('can fetch access token', async (t) => {
-  const token = await api.getCachedToken()
+  const token = await api.getToken()
 
   t.is(typeof token, 'string')
   t.truthy(token)
@@ -20,7 +20,7 @@ test('can fetch access token', async (t) => {
 })
 
 test('can forceRefresh the access token', async (t) => {
-  const token = await api.getCachedToken(true)
+  const token = await api.getToken(true)
 
   t.is(typeof token, 'string')
   t.truthy(token)
@@ -34,8 +34,7 @@ test('cannot fetch access token when invalid credentials', async (t) => {
     subscriptionKey: '',
   })
 
-  const token = await api.getCachedToken(true)
-
+  const token = await api.getToken(true)
   t.is(typeof token, 'object')
   t.truthy(token.ErrorType)
   t.is(token.ErrorType, 'LOCATION_NOT_FOUND')

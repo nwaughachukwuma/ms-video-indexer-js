@@ -1,14 +1,10 @@
-import env from 'dotenv'
+import { LOCATION, SUBSCRIPTION_KEY, ACCOUNT_ID } from './init.js'
 import test from 'ava'
-import videoAnalyzer from '../dist/index.js'
+import videoAnalyzer from '../lib/index.js'
 
 /**
  * Fetch video thumbnail string
  */
-
-env.config()
-
-const { LOCATION, ACCOUNT_ID, SUBSCRIPTION_KEY } = process.env
 const api = videoAnalyzer({
   location: LOCATION,
   accountId: ACCOUNT_ID,
@@ -22,28 +18,28 @@ const validUnrelatedThumbnailId = '8fcef147-8655-425d-b5e3-1062fd32838b'
 const randomThumbnailId = 'some-random-thumbnail-id'
 
 /** Can fetch video thumbnail from specified id */
-test('should fail to get video thumbnail indexId is wrong', async (t) => {
-  const response = await api.getVideoThumbnail(wrongIndexId, randomThumbnailId)
+test('fails to get video thumbnail when indexId is wrong', async (t) => {
+  const response = await api.getThumbnail(wrongIndexId, randomThumbnailId)
 
   t.truthy(response)
   t.is(typeof response, 'string')
 
   const result_1 = JSON.parse(response)
-  t.truthy(result_1.message.includes('The request is invalid'))
+  t.is(result_1.ErrorType, 'USER_NOT_ALLOWED')
 })
 
-test('should fail to get video thumbnail when thumbnailId is wrong', async (t) => {
-  const response = await api.getVideoThumbnail(validIndexId, randomThumbnailId)
+test('fails to get video thumbnail when thumbnailId is wrong', async (t) => {
+  const response = await api.getThumbnail(validIndexId, randomThumbnailId)
 
   t.truthy(response)
   t.is(typeof response, 'string')
 
   const result_1 = JSON.parse(response)
-  t.truthy(result_1.message.includes('The request is invalid'))
+  t.is(result_1.ErrorType, 'INVALID_INPUT')
 })
 
-test('should fail to get video thumbnail when provided an unrelated thumbnailId', async (t) => {
-  const response = await api.getVideoThumbnail(
+test('fails to get video thumbnail when provided an unrelated thumbnailId', async (t) => {
+  const response = await api.getThumbnail(
     validIndexId,
     validUnrelatedThumbnailId,
   )
@@ -55,9 +51,9 @@ test('should fail to get video thumbnail when provided an unrelated thumbnailId'
   t.is(result_1.ErrorType, 'NOT_FOUND')
 })
 
-test('should fail to get video thumbnail when provided the right video index and thumbnailId, but the wrong format', async (t) => {
+test('fails to get video thumbnail when provided the right video index and thumbnailId, but the wrong format', async (t) => {
   const wrongFormat = 'TIFF'
-  const response = api.getVideoThumbnail(
+  const response = api.getThumbnail(
     validIndexId,
     validThumbnailId,
     // @ts-ignore
@@ -71,16 +67,16 @@ test('should fail to get video thumbnail when provided the right video index and
   })
 })
 
-test('should get video thumbnail when provided valid input', async (t) => {
-  const response = await api.getVideoThumbnail(validIndexId, validThumbnailId)
+test('get video thumbnail when provided valid input', async (t) => {
+  const response = await api.getThumbnail(validIndexId, validThumbnailId)
   // console.log('Response :=', JSON.parse(response))
   t.truthy(response)
   t.is(typeof response, 'string')
   t.truthy(response.length)
 })
 
-test('should get video thumbnail with the right shape, when provided valid input', async (t) => {
-  const response = await api.getVideoThumbnail(validIndexId, validThumbnailId)
+test('get video thumbnail with the right shape, when provided valid input', async (t) => {
+  const response = await api.getThumbnail(validIndexId, validThumbnailId)
 
   try {
     const result = JSON.parse(response)
