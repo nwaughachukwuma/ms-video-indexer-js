@@ -46,11 +46,11 @@
     "sma-cache": "^0.1.2"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.18.2",
     "@types/node": "^16.10.2",
     "@types/node-fetch": "^3.0.3",
     "@typescript-eslint/parser": "4.32.0",
     "ava": "^4.3.0",
-    "babel-eslint": "^10.1.0",
     "dotenv": "^8.2.0",
     "eslint": "7.22.0",
     "eslint-config-prettier": "8.1.0",
@@ -59,8 +59,8 @@
     "lint-staged": "10.5.4",
     "prettier": "2.4.1",
     "ts-node": "^10.2.1",
-    "typescript": "^4.4.3",
-    "tsup": "^6.1.2"
+    "tsup": "^6.1.2",
+    "typescript": "^4.4.3"
   },
   "lint-staged": {
     "./**/*.{ts,js}": [
@@ -75,8 +75,8 @@
   },
   "ava": {
     "files": [
-			"ava.test/**/*",
+      "ava.test/**/*",
       "!ava.test/init.js"
-		]
+    ]
   }
 }
