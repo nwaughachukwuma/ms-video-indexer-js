@@ -1,6 +1,10 @@
 import { expectType } from 'tsd'
 import videoIndexer from '../index'
-import type { ResponseError, GetVideoIndexResponseSuccess } from '../types'
+import type {
+  ResponseError,
+  GetVideoIndexResponseSuccess,
+  UploadVideoResponse,
+} from '../types'
 
 const location = 'location'
 const accountId = 'accountId'
@@ -13,7 +17,9 @@ const VIDEO_NAME = 'videoName'
 const api = videoIndexer({ location, accountId, subscriptionKey })
 
 expectType<Promise<string | ResponseError>>(api.getToken())
-expectType<Promise<any>>(api.indexVideo(VIDEO_URL, { name: VIDEO_NAME }))
+expectType<Promise<UploadVideoResponse>>(
+  api.indexVideo(VIDEO_URL, { name: VIDEO_NAME }),
+)
 expectType<Promise<ResponseError | GetVideoIndexResponseSuccess>>(
   api.getIndexedOutput(INDEX_ID),
 )
