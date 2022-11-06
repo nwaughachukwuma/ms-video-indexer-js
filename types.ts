@@ -104,7 +104,10 @@ export interface APIHandlers {
    * @param videoUrl the video downloadable URI on the cloud
    * @param options key value pair that overwrites the default options
    */
-  indexVideo(videoURL: string, options: UploadVideoRequest): Promise<any>
+  indexVideo(
+    videoURL: string,
+    options: UploadVideoRequest,
+  ): Promise<UploadVideoResponse>
 
   /**
    * @param indexId indexed video id
