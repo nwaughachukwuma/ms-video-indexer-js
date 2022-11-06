@@ -5,6 +5,7 @@ import type {
   APIHandlers,
   GetVideoIndexResponseSuccess,
   ResponseError,
+  UploadVideoResponse,
 } from './types'
 
 const nodeFetch = () => import('node-fetch')
@@ -62,7 +63,7 @@ export const videoIndexer = ({
   async function indexVideo(
     videoUrl: UploadVideoRequest['videoUrl'],
     options: UploadVideoRequest,
-  ) {
+  ): Promise<UploadVideoResponse> {
     const _options = Object.assign(defaultOptions, { ...options, videoUrl })
     const urlQuery = makeQueryString(_options)
     const accessToken = await getToken()

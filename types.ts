@@ -85,6 +85,13 @@ export interface ResponseError {
   Message: string
 }
 
+export interface UploadVideoResponse {
+  id: string
+  state: string
+  name: string
+  externalId: string
+}
+
 export interface APIHandlers {
   /**
    * Cache the access token using sma-cache
