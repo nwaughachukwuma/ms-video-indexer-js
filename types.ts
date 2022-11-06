@@ -87,7 +87,13 @@ export interface ResponseError {
 
 export interface UploadVideoResponse {
   id: string
-  state: string
+  state:
+    | 'uploading'
+    | 'uploaded'
+    | 'processing'
+    | 'processed'
+    | 'failed'
+    | 'quarantined'
   name: string
   externalId: string
 }
